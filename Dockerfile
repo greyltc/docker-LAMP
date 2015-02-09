@@ -30,7 +30,7 @@ RUN sudo sed -i 's,/etc/httpd/conf/server.key,/https/server.key,g' /etc/httpd/co
 # setup php
 RUN sudo sed -i 's,LoadModule rewrite_module modules/mod_rewrite.so,LoadModule rewrite_module modules/mod_rewrite.so\nLoadModule php5_module modules/libphp5.so,g' /etc/httpd/conf/httpd.conf
 RUN sudo sed -i 's,LoadModule mpm_event_module modules/mod_mpm_event.so,LoadModule mpm_prefork_module modules/mod_mpm_prefork.so,g' /etc/httpd/conf/httpd.conf
-RUN sudo echo "Include conf/extra/php5_module.conf" >> /etc/httpd/conf/httpd.conf
+RUN sudo sed -i '$a Include conf/extra/php5_module.conf' /etc/httpd/conf/httpd.conf
 RUN sudo sed -i 's,;extension=iconv.so,extension=iconv.so,g' /etc/php/php.ini
 RUN sudo sed -i 's,;extension=xmlrpc.so,extension=xmlrpc.so,g' /etc/php/php.ini
 RUN sudo sed -i 's,;extension=zip.so,extension=zip.so,g' /etc/php/php.ini
