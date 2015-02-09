@@ -78,4 +78,4 @@ RUN sudo sed -i 's,;extension=mysql.so,extension=mysql.so,g' /etc/php/php.ini
 #RUN sed -i 's,mysql.default_user =,mysql.default_user = root,g' /etc/php/php.ini
 
 # start apache and mysql
-CMD cd '/usr'; /usr/bin/mysqld_safe --datadir='/var/lib/mysql'& apachectl -DFOREGROUND
+CMD cd '/usr'; sudo /usr/bin/mysqld_safe --datadir='/var/lib/mysql'& sudo apachectl -DFOREGROUND
