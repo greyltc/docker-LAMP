@@ -15,7 +15,7 @@ and you should see the default apache index.
 1. **[Optional] Change your webserver root data storage location**  
 It's likely desirable for your www root dir to be placed in a persistant storage location outside the docker container, on the host's file system for example. Let's imagine you wish to store your www files in a folder `~/www` on the host's file system. Then insert the following into the docker startup command (from step 2. above) between `run` and `--name`:  
 `-v ~/www:/srv/http`  
-UID 33 or GID 33 (http in the container image) must have at least read permissions for `~/www` on the host system.  
+UID 33 or GID 33 (http in the container image) must have at least read permissions for `~/www` on the host system. Generally, it's enough to do:  
 `chmod -R 770 ~/www; sudo chgrp -R 33 ~/www`  
 [Read this if you run into permissions issues in the container.](http://stackoverflow.com/questions/24288616/permission-denied-on-accessing-host-directory-in-docker)
 1. **[Optional] Use your own ssl certificate**
