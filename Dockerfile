@@ -6,6 +6,7 @@ RUN sudo pacman -Suy --noconfirm --needed apache
 
 # install php
 RUN sudo pacman -Suy --noconfirm --needed php php-apache
+ADD info.php /srv/http/
 
 # for ssl
 RUN sudo pacman -Suy --noconfirm --needed openssl
