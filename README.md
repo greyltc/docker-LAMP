@@ -11,7 +11,7 @@ Point your browser to:
 http://localhost/  
 or  
 https://localhost/  
-and you should see the default apache index.
+and you should see the default apache index. Follow the info.php link there and you should see detials of the php installation.
 1. **[Optional] Change your webserver root data storage location**  
 It's likely desirable for your www root dir to be placed in a persistant storage location outside the docker container, on the host's file system for example. Let's imagine you wish to store your www files in a folder `~/www` on the host's file system. Then insert the following into the docker startup command (from step 2. above) between `run` and `--name`:  
 `-v ~/www:/srv/http`  
