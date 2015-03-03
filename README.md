@@ -19,7 +19,7 @@ UID 33 or GID 33 (http in the container image) must have at least read permissio
 `chmod -R 770 ~/www; sudo chgrp -R 33 ~/www`  
 [Read this if you run into permissions issues in the container.](http://stackoverflow.com/questions/24288616/permission-denied-on-accessing-host-directory-in-docker)
 1. **[Optional] Use your own ssl certificate**  
-This image comes with a self-generated ssl certificate and so you'll get browser warnings when you access owncloud via https. You can replace these self signed certificates with your own, properly generated cert files.
+This image comes with a self-generated ssl certificate and so you'll get browser warnings when you access owncloud via https (but the connection will be encrypted (with a private key that anyone can view by snooping around in the docker image)). You can (& should) replace these self signed certificates with your own, properly generated cert files.
 Assuming you have `server.crt` and `server.key` files in a directory `~/sslCert` on the host machine:   
 `sudo chown -R root ~/sslCert; sudo chgrp -R root ~/sslCert`  
 `sudo chmod 400 ~/sslCert/server.key`   
