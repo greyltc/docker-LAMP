@@ -21,7 +21,7 @@ ENV SUBJECT /C=US/ST=CA/L=CITY/O=ORGANIZATION/OU=UNIT/CN=localhost
 RUN sudo openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:2048 -out server.key
 RUN sudo chmod 600 server.key
 RUN sudo openssl req -new -key server.key -out server.csr -subj $SUBJECT
-RUN sudo openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt
+RUN sudo openssl x509 -req -days 3650 -in server.csr -signkey server.key -out server.crt
 RUN sudo mkdir /https
 RUN sudo ln -s /etc/httpd/conf/server.crt /https/server.crt
 RUN sudo ln -s /etc/httpd/conf/server.key /https/server.key
