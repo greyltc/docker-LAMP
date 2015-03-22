@@ -74,6 +74,7 @@ RUN sudo sed -i 's,;extension=pdo_sqlite.so,extension=pdo_sqlite.so,g' /etc/php/
 RUN sudo pacman -Suy --noconfirm --needed mariadb perl-dbd-mysql
 RUN sudo sed -i 's,;extension=pdo_mysql.so,extension=pdo_mysql.so,g' /etc/php/php.ini
 RUN sudo sed -i 's,;extension=mysql.so,extension=mysql.so,g' /etc/php/php.ini
+RUN sudo mysql_install_db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
 #RUN sed -i 's,mysql.trace_mode = Off,mysql.trace_mode = On,g' /etc/php/php.ini
 #RUN sed -i 's,mysql.default_host =,mysql.default_host = localhost,g' /etc/php/php.ini
 #RUN sed -i 's,mysql.default_user =,mysql.default_user = root,g' /etc/php/php.ini
