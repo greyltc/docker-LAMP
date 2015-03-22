@@ -51,7 +51,7 @@ RUN sudo sed -i 's,;extension=intl.so,extension=intl.so,g' /etc/php/php.ini
 RUN sudo pacman -Suy --noconfirm --needed php-mcrypt
 RUN sudo sed -i 's,;extension=mcrypt.so,extension=mcrypt.so,g' /etc/php/php.ini
 
-# php sppeder-upper
+# php speeder-upper: xcache or apcu
 # php-xcache
 RUN sudo pacman -Suy --noconfirm --needed php-xcache
 RUN sudo sed -i 's,;extension=xcache.so,extension=xcache.so,g' /etc/php/conf.d/xcache.ini
