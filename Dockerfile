@@ -55,6 +55,7 @@ RUN sudo sed -i 's,;extension=mcrypt.so,extension=mcrypt.so,g' /etc/php/php.ini
 # php-xcache
 RUN sudo pacman -Suy --noconfirm --needed php-xcache
 RUN sudo sed -i 's,;extension=xcache.so,extension=xcache.so,g' /etc/php/conf.d/xcache.ini
+RUN sudo echo "xcache.admin.enable_auth = Off" >> /etc/php/conf.d/xcache.ini
 # OR
 # php-apcu
 #RUN pacman -Suy --noconfirm --needed php-apcu
