@@ -18,12 +18,9 @@ RUN sed -i 's,#LoadModule socache_shmcb_module modules/mod_socache_shmcb.so,Load
 RUN sed -i 's,#Include conf/extra/httpd-ssl.conf,Include conf/extra/httpd-ssl.conf,g' /etc/httpd/conf/httpd.conf
 
 # generate a self-signed cert
-WORKDIR /etc/httpd/conf
 ENV SUBJECT /C=US/ST=CA/L=CITY/O=ORGANIZATION/OU=UNIT/CN=localhost
-RUN openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:2048 -out server.key
-RUN chmod 600 server.key
-RUN openssl req -new -key server.key -out server.csr -subj $SUBJECT
-RUN openssl x509 -req -days 3650 -in server.csr -signkey server.key -out server.crt
+ADD genSSLKey.sh /etc/httpd/conf/genSSLKey.sh
+RUN /etc/httpd/conf/genSSLKey.sh
 RUN mkdir /https
 RUN ln -s /etc/httpd/conf/server.crt /https/server.crt
 RUN ln -s /etc/httpd/conf/server.key /https/server.key
