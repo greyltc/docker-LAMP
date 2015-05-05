@@ -4,8 +4,8 @@ MAINTAINER l3iggs <l3iggs@live.com>
 # install apache
 RUN pacman -S --noconfirm --needed apache
 # this folder is normally created by the systemd apache service which we won't be using
-RUN echo 'ServerName ${HOSTNAME}' >> /etc/httpd/conf/httpd.conf
 RUN mkdir /run/httpd
+RUN sed -i '$a ServerName ${HOSTNAME}' /etc/httpd/conf/httpd.conf
 
 # install php
 RUN pacman -S --noconfirm --needed php php-apache
