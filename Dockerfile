@@ -93,9 +93,11 @@ RUN mysql_install_db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
 EXPOSE 80
 EXPOSE 443
 
-# start servers
-ADD startServers.sh /root/startServers.sh
+# set some default variables for the startup script
 ENV REGENERATE_SSL_CERT false
 ENV START_APACHE true
 ENV START_MYSQL true
-CMD ["/root/startServers.sh"]
+
+# start servers
+ADD startServers.sh /root/startServers.sh
+CMD [/root/startServers.sh"]
