@@ -95,6 +95,7 @@ EXPOSE 443
 
 # start servers
 ADD startServers.sh /root/startServers.sh
+ENV REGENERATE_SSL_CERT false
 ENV START_APACHE true
 ENV START_MYSQL true
 CMD ["/root/startServers.sh"]
