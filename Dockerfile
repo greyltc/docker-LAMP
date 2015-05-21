@@ -100,4 +100,4 @@ ENV START_MYSQL true
 
 # start servers
 ADD startServers.sh /root/startServers.sh
-CMD [/root/startServers.sh"]
+CMD ["/root/startServers.sh"]
