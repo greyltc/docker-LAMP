@@ -13,7 +13,6 @@ RUN pacman -S --noconfirm --needed php php-apache
 ADD info.php /srv/http/
 
 # for ssl
-RUN pacman -S --noconfirm --needed openssl
 RUN sed -i 's,;extension=openssl.so,extension=openssl.so,g' /etc/php/php.ini
 RUN sed -i 's,#LoadModule ssl_module modules/mod_ssl.so,LoadModule ssl_module modules/mod_ssl.so,g' /etc/httpd/conf/httpd.conf
 RUN sed -i 's,#LoadModule socache_shmcb_module modules/mod_socache_shmcb.so,LoadModule socache_shmcb_module modules/mod_socache_shmcb.so,g' /etc/httpd/conf/httpd.conf
