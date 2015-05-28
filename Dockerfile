@@ -103,7 +103,7 @@ RUN sed -i '$a DAVLockDB /home/httpd/DAV/DAVLock' /etc/httpd/conf/httpd.conf
 RUN mkdir -p /home/httpd/DAV
 RUN chown -R http:http /home/httpd/DAV
 RUN mkdir -p /home/httpd/html/dav
-RUN chown -R nobody.nobody /home/httpd/html/dav
+RUN chown -R http:http /home/httpd/html/dav
 
 # expose web server ports
 EXPOSE 80
