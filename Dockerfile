@@ -2,7 +2,7 @@ FROM l3iggs/archlinux
 MAINTAINER l3iggs <l3iggs@live.com>
 
 # upldate package list
-RUN sudo pacman -Sy
+RUN pacman -Sy
 
 # install apache
 RUN pacman -S --noconfirm --needed apache
