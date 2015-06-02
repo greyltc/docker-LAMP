@@ -55,7 +55,7 @@ RUN sed -i 's,;extension=gd.so,extension=gd.so,g' /etc/php/php.ini
 
 # for php-intl
 RUN pacman -S --noconfirm --needed php-intl
-RUN sed -i 's,;extension=intl.so,extension=intl.so,g' /etc/php/php.ini 
+RUN sed -i 's,;extension=intl.so,extension=intl.so,g' /etc/php/php.ini
 
 # for php-mcrypt
 RUN pacman -S --noconfirm --needed php-mcrypt
@@ -85,7 +85,7 @@ RUN sed -i 's,;extension=pdo_sqlite.so,extension=pdo_sqlite.so,g' /etc/php/php.i
 # for mariadb (mysql) database
 # here is a hack to prevent an error during install because of missing systemd
 RUN ln -s /usr/bin/true /usr/bin/systemd-tmpfiles
-RUN pacman -S --noconfirm --needed mariadb 
+RUN pacman -S --noconfirm --needed mariadb
 RUN rm /usr/bin/systemd-tmpfiles
 RUN pacman -S --noconfirm --needed perl-dbd-mysql
 RUN sed -i 's,;extension=pdo_mysql.so,extension=pdo_mysql.so,g' /etc/php/php.ini
@@ -94,6 +94,11 @@ RUN mysql_install_db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
 #RUN sed -i 's,mysql.trace_mode = Off,mysql.trace_mode = On,g' /etc/php/php.ini
 #RUN sed -i 's,mysql.default_host =,mysql.default_host = localhost,g' /etc/php/php.ini
 #RUN sed -i 's,mysql.default_user =,mysql.default_user = root,g' /etc/php/php.ini
+
+# for postgresql
+RUN pacman -S --noconfirm --needed php-pgsql
+RUN sed -i 's,;extension=pdo_pgsql.so,extension=pdo_pgsql.so,g' /etc/php/php.ini
+RUN sed -i 's,;extension=pgsql.so,extension=pgsql.so,g' /etc/php/php.ini
 
 # for dav suppport
 RUN sed -i 's,#LoadModule dav_module modules/mod_dav.so,LoadModule dav_module modules/mod_dav.so,g' /etc/httpd/conf/httpd.conf
