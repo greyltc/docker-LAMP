@@ -44,6 +44,8 @@ RUN sed -i 's,;extension=zip.so,extension=zip.so,g' /etc/php/php.ini
 RUN sed -i 's,;extension=bz2.so,extension=bz2.so,g' /etc/php/php.ini
 RUN sed -i 's,;extension=curl.so,extension=curl.so,g' /etc/php/php.ini
 RUN sed -i 's,;extension=ftp.so,extension=ftp.so,g' /etc/php/php.ini
+RUN sed -i 's,;extension=ftp.so,extension=ftp.so,g' /etc/php/php.ini
+RUN sed -i 's,^open_basedir.*$,\0:/dev/urandom,g' /etc/php/php.ini
 
 # for php-ldap
 RUN pacman -S --noconfirm --needed php-ldap
