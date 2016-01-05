@@ -1,9 +1,6 @@
 FROM l3iggs/archlinux
 MAINTAINER l3iggs <l3iggs@live.com>
 
-# upldate package list
-RUN pacman -Sy
-
 # install apache
 RUN pacman -S --noconfirm --needed apache
 # this folder is normally created by the systemd apache service which we won't be using
