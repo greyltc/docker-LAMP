@@ -61,17 +61,12 @@ RUN sed -i 's,;extension=intl.so,extension=intl.so,g' /etc/php/php.ini
 RUN pacman -S --noconfirm --needed php-mcrypt
 RUN sed -i 's,;extension=mcrypt.so,extension=mcrypt.so,g' /etc/php/php.ini
 
-# php speeder-upper: xcache or apcu
-# php-xcache
-RUN pacman -S --noconfirm --needed php-xcache
-RUN sed -i 's,;extension=xcache.so,extension=xcache.so,g' /etc/php/conf.d/xcache.ini
-RUN echo "xcache.admin.enable_auth = Off" >> /etc/php/conf.d/xcache.ini
-
-# OR
-# php-apcu
-#RUN pacman -S --noconfirm --needed php-apcu
-#remove the comment in /etc/php/conf.d/apcu.ini
-#RUN sed -i 's,;zend_extension=opcache.so,zend_extension=opcache.so,g' /etc/php/php.ini
+# php-apcu for PHP caching
+RUN pacman -S --noconfirm --needed php-apcu
+RUN sed -i 's,;extension=apcu.so,extension=apcu.so,g' /etc/php/conf.d/apcu.ini
+RUN sed -i '$a apc.enabled=1' /etc/php/conf.d/apcu.ini
+RUN sed -i '$a apc.shm_size=32M' /etc/php/conf.d/apcu.ini
+RUN sed -i '$a apc.ttl=7200' /etc/php/conf.d/apcu.ini
 
 # for exif support
 RUN pacman -S --noconfirm --needed exiv2
