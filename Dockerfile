@@ -9,9 +9,10 @@ RUN sed -i '$a ServerName ${HOSTNAME}' /etc/httpd/conf/httpd.conf
 RUN pacman -S --noconfirm --needed php php-apache
 ADD info.php /srv/http/
 
-# setup ssl
-ADD setupSSL.sh /root/setupSSL.sh
-RUN chmod +x /root/setupSSL.sh; /root/setupSSL.sh
+# setup ssl via letsencrypt
+RUN pacman -S --noconfirm --needed letsencrypt letsencrypt-apache
+#ADD setupSSL.sh /root/setupSSL.sh
+#RUN chmod +x /root/setupSSL.sh; /root/setupSSL.sh
 
 # setup php
 RUN sed -i 's,LoadModule mpm_event_module modules/mod_mpm_event.so,#LoadModule mpm_event_module modules/mod_mpm_event.so,g' /etc/httpd/conf/httpd.conf
