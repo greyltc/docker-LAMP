@@ -13,6 +13,9 @@ Alias /dav "/home/httpd/html/dav"
 EOF
 fi
 
+# this folder is normally created by the systemd apache service which we won't be using
+mkdir -p /run/httpd
+
 [ "$START_MYSQL" = true ] && cd /usr && /usr/bin/mysqld_safe --datadir=/var/lib/mysql&
 [ "$REGENERATE_SSL_CERT" = true ] && /etc/httpd/conf/genSSLKey.sh
 [ "$START_APACHE" = true ] && apachectl start
