@@ -9,11 +9,6 @@ RUN sed -i '$a ServerName ${HOSTNAME}' /etc/httpd/conf/httpd.conf
 RUN pacman -S --noconfirm --needed php php-apache
 ADD info.php /srv/http/
 
-# setup ssl via letsencrypt
-RUN pacman -S --noconfirm --needed letsencrypt letsencrypt-apache
-#ADD setupSSL.sh /root/setupSSL.sh
-#RUN chmod +x /root/setupSSL.sh; /root/setupSSL.sh
-
 # setup php
 RUN sed -i 's,LoadModule mpm_event_module modules/mod_mpm_event.so,#LoadModule mpm_event_module modules/mod_mpm_event.so,g' /etc/httpd/conf/httpd.conf
 RUN sed -i 's,#LoadModule mpm_prefork_module modules/mod_mpm_prefork.so,LoadModule mpm_prefork_module modules/mod_mpm_prefork.so,g' /etc/httpd/conf/httpd.conf
@@ -87,6 +82,11 @@ RUN mkdir -p /home/httpd/DAV
 RUN chown -R http:http /home/httpd/DAV
 RUN mkdir -p /home/httpd/html/dav
 RUN chown -R http:http /home/httpd/html/dav
+
+# setup ssl via letsencrypt
+RUN pacman -S --noconfirm --needed letsencrypt letsencrypt-apache
+#ADD setupSSL.sh /root/setupSSL.sh
+#RUN chmod +x /root/setupSSL.sh; /root/setupSSL.sh
 
 # expose web server ports
 EXPOSE 80
