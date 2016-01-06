@@ -32,9 +32,10 @@ RUN sed -i 's,/etc/httpd/conf/server.crt,/https/server.crt,g' /etc/httpd/conf/ex
 RUN sed -i 's,/etc/httpd/conf/server.key,/https/server.key,g' /etc/httpd/conf/extra/httpd-ssl.conf
 
 # setup php
-RUN sed -i 's,LoadModule rewrite_module modules/mod_rewrite.so,LoadModule rewrite_module modules/mod_rewrite.so\nLoadModule php5_module modules/libphp5.so,g' /etc/httpd/conf/httpd.conf
-RUN sed -i 's,LoadModule mpm_event_module modules/mod_mpm_event.so,LoadModule mpm_prefork_module modules/mod_mpm_prefork.so,g' /etc/httpd/conf/httpd.conf
-RUN sed -i '$a Include conf/extra/php5_module.conf' /etc/httpd/conf/httpd.conf
+RUN sed -i 's,LoadModule mpm_event_module modules/mod_mpm_event.so,#LoadModule mpm_event_module modules/mod_mpm_event.so,g' /etc/httpd/conf/httpd.conf
+RUN sed -i 's,#LoadModule mpm_prefork_module modules/mod_mpm_prefork.so,LoadModule mpm_prefork_module modules/mod_mpm_prefork.so,g' /etc/httpd/conf/httpd.conf
+RUN sed -i 's,LoadModule dir_module modules/mod_dir.so,LoadModule dir_module modules/mod_dir.so\nLoadModule php7_module modules/libphp7.so,g' /etc/httpd/conf/httpd.conf
+RUN sed -i '$a Include conf/extra/php7_module.conf' /etc/httpd/conf/httpd.conf
 RUN sed -i 's,;extension=iconv.so,extension=iconv.so,g' /etc/php/php.ini
 RUN sed -i 's,;extension=xmlrpc.so,extension=xmlrpc.so,g' /etc/php/php.ini
 RUN sed -i 's,;extension=zip.so,extension=zip.so,g' /etc/php/php.ini
@@ -58,7 +59,9 @@ RUN sed -i 's,;extension=intl.so,extension=intl.so,g' /etc/php/php.ini
 RUN pacman -S --noconfirm --needed php-mcrypt
 RUN sed -i 's,;extension=mcrypt.so,extension=mcrypt.so,g' /etc/php/php.ini
 
-# php-apcu for PHP caching
+# for PHP caching
+RUN sed -i 's,;zend_extension=opcache.so,zend_extension=opcache.so,g' /etc/php/php.ini
+# TODO: think about setting default values https://secure.php.net/manual/en/opcache.installation.php#opcache.installation.recommended
 RUN pacman -S --noconfirm --needed php-apcu
 RUN sed -i 's,;extension=apcu.so,extension=apcu.so,g' /etc/php/conf.d/apcu.ini
 RUN sed -i '$a apc.enabled=1' /etc/php/conf.d/apcu.ini
