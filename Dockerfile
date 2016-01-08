@@ -83,20 +83,13 @@ RUN chown -R http:http /home/httpd/DAV
 RUN mkdir -p /home/httpd/html/dav
 RUN chown -R http:http /home/httpd/html/dav
 
-# setup ssl via letsencrypt
+# generate/fetch ssl cert. files
 RUN pacman -S --noconfirm --needed letsencrypt letsencrypt-apache
-ADD setupSSL.sh /root/setupSSL.sh
-RUN chmod +x /root/setupSSL.sh; /root/setupSSL.sh
-
-# generate a self-signed cert
-ENV SUBJECT /C=US/ST=CA/L=CITY/O=ORGANIZATION/OU=UNIT/CN=localhost
-ADD genSSLKey.sh /etc/httpd/conf/genSSLKey.sh
-RUN /etc/httpd/conf/genSSLKey.sh
-RUN mkdir /https
-RUN ln -s /etc/httpd/conf/server.crt /https/server.crt
-RUN ln -s /etc/httpd/conf/server.key /https/server.key
-RUN sed -i 's,/etc/httpd/conf/server.crt,/https/server.crt,g' /etc/httpd/conf/extra/httpd-ssl.conf
-RUN sed -i 's,/etc/httpd/conf/server.key,/https/server.key,g' /etc/httpd/conf/extra/httpd-ssl.conf
+ADD setupApacheSSLKey.sh /root/setupApacheSSLKey.sh
+ENV DO_SSL_SELF_GENERATION true
+ENV SUBJECT /C=US/ST=CA/L=CITY/O=ORGANIZATION/OU=UNIT/CN=${HOSTNAME}
+RUN chmod +x /root/setupApacheSSLKey.sh
+RUN /root/setupApacheSSLKey.sh
 
 # expose web server ports
 EXPOSE 80
