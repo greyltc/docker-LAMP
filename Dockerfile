@@ -1,4 +1,4 @@
-FROM l3iggs/archlinux
+FROM greyltc/archlinux
 MAINTAINER l3iggs <l3iggs@live.com>
 
 # install apache
