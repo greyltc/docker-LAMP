@@ -30,8 +30,12 @@ if [ "$DO_SSL_SELF_GENERATION" = true ] ; then
 fi
 
 if [ "$DO_SSL_LETS_ENCRYPT_FETCH" = true ] ; then
-	letsencrypt certonly --agree-tos --renew-by-default --email grey@christoforo.net --webroot -w /srv/http -d ${HOSTNAME}
-	ls /etc/letsencrypt/live/${HOSTNAME}/
+	HOSTNAME=$(hostname --fqdn)
+	echo "Fetching ssl certificate files for ${HOSTNAME} from letsencrypt.org."
+	echo "This container's Apache server must be reachable from the Internet via http://${HOSTNAME}"
+	/root/letsencrypt-auto-release-testing-v0.1.22/letsencrypt-auto --debug certonly --webroot -w /srv/http -d ${HOSTNAME}
+	#letsencrypt certonly --agree-tos --renew-by-default --email ${EMAIL} --webroot -w /srv/http -d ${HOSTNAME}
+	ls -alh /etc/letsencrypt/live/${HOSTNAME}/
 	# cp /etc/letsencrypt/live/${HOSTNAME}/thing.crt ${CERT_DIR}/${CRT_FILE_NAME}
 	# cp /etc/letsencrypt/live/${HOSTNAME}/thing.key ${CERT_DIR}/${KEY_FILE_NAME}
 fi

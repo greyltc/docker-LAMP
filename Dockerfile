@@ -83,24 +83,33 @@ RUN chown -R http:http /home/httpd/DAV
 RUN mkdir -p /home/httpd/html/dav
 RUN chown -R http:http /home/httpd/html/dav
 
+# setup ssl
+ADD setupSSL.sh /root/setupSSL.sh
+RUN /root/setupSSL.sh
+
 # generate/fetch ssl cert. files
+#RUN curl -L https://github.com/letsencrypt/letsencrypt/archive/letsencrypt-auto-release-testing-v0.1.22.tar.gz > le.tar.gz
+#RUN tar -xvf le.tar.gz
 RUN pacman -S --noconfirm --needed letsencrypt letsencrypt-apache
-ADD setupApacheSSLKey.sh /root/setupApacheSSLKey.sh
+ADD setupApacheSSLKey.sh /usr/sbin/setupApacheSSLKey.sh
+RUN chmod +x /usr/sbin/setupApacheSSLKey.sh
 ENV DO_SSL_SELF_GENERATION true
-ENV SUBJECT /C=US/ST=CA/L=CITY/O=ORGANIZATION/OU=UNIT/CN=${HOSTNAME}
-RUN chmod +x /root/setupApacheSSLKey.sh
-RUN /root/setupApacheSSLKey.sh
+ENV SUBJECT /C=US/ST=CA/L=CITY/O=ORGANIZATION/OU=UNIT/CN=localhost
+RUN /usr/sbin/setupApacheSSLKey.sh
 
 # expose web server ports
 EXPOSE 80
 EXPOSE 443
 
 # set some default variables for the startup script
-ENV REGENERATE_SSL_CERT false
+ENV DO_SSL_SELF_GENERATION false
+ENV DO_SSL_LETS_ENCRYPT_FETCH false
+ENV EMAIL user@example.com
 ENV START_APACHE true
 ENV START_MYSQL true
 ENV ENABLE_DAV false
 
 # start servers
-ADD startServers.sh /root/startServers.sh
-CMD ["/root/startServers.sh"]
+ADD startServers.sh /usr/sbin/startServers.sh
+RUN chmod +x /usr/sbin/startServers.sh
+CMD ["/usr/sbin/startServers.sh"]
