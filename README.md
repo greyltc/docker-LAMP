@@ -23,7 +23,7 @@ This image comes with a self-generated ssl certificate and so you'll get browser
 Assuming you have `server.crt` and `server.key` files in a directory `~/sslCert` on the host machine:   
 `sudo chown -R root ~/sslCert; sudo chgrp -R root ~/sslCert`  
 `sudo chmod 400 ~/sslCert/server.key`   
-You can then add `-v ~/sslCert:/https` to the docker run command line to use your ssl certificate files.  
+You can then add `-v ~/sslCert:/root/sslKeys` to the docker run command line to use your ssl certificate files.  
 1. **[Optional] Stop the lamp docker server instance**  
 `docker stop lamp`
 1. **[Optional] Delete the lamp docker server instance (after stopping it)**  
