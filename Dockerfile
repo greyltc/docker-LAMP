@@ -1,4 +1,4 @@
-FROM l3iggs/archlinux
+FROM greyltc/archlinux
 MAINTAINER l3iggs <l3iggs@live.com>
 
 # install apache
@@ -83,31 +83,33 @@ RUN chown -R http:http /home/httpd/DAV
 RUN mkdir -p /home/httpd/html/dav
 RUN chown -R http:http /home/httpd/html/dav
 
-# setup ssl via letsencrypt
-RUN pacman -S --noconfirm --needed letsencrypt letsencrypt-apache
+# setup ssl
 ADD setupSSL.sh /root/setupSSL.sh
-RUN chmod +x /root/setupSSL.sh; /root/setupSSL.sh
+RUN /root/setupSSL.sh
 
-# generate a self-signed cert
+# generate/fetch ssl cert. files
+#RUN curl -L https://github.com/letsencrypt/letsencrypt/archive/letsencrypt-auto-release-testing-v0.1.22.tar.gz > le.tar.gz
+#RUN tar -xvf le.tar.gz
+RUN pacman -S --noconfirm --needed letsencrypt letsencrypt-apache
+ADD setupApacheSSLKey.sh /usr/sbin/setupApacheSSLKey.sh
+RUN chmod +x /usr/sbin/setupApacheSSLKey.sh
+ENV DO_SSL_SELF_GENERATION true
 ENV SUBJECT /C=US/ST=CA/L=CITY/O=ORGANIZATION/OU=UNIT/CN=localhost
-ADD genSSLKey.sh /etc/httpd/conf/genSSLKey.sh
-RUN /etc/httpd/conf/genSSLKey.sh
-RUN mkdir /https
-RUN ln -s /etc/httpd/conf/server.crt /https/server.crt
-RUN ln -s /etc/httpd/conf/server.key /https/server.key
-RUN sed -i 's,/etc/httpd/conf/server.crt,/https/server.crt,g' /etc/httpd/conf/extra/httpd-ssl.conf
-RUN sed -i 's,/etc/httpd/conf/server.key,/https/server.key,g' /etc/httpd/conf/extra/httpd-ssl.conf
+RUN /usr/sbin/setupApacheSSLKey.sh
 
 # expose web server ports
 EXPOSE 80
 EXPOSE 443
 
 # set some default variables for the startup script
-ENV REGENERATE_SSL_CERT false
+ENV DO_SSL_SELF_GENERATION false
+ENV DO_SSL_LETS_ENCRYPT_FETCH false
+ENV EMAIL user@example.com
 ENV START_APACHE true
 ENV START_MYSQL true
 ENV ENABLE_DAV false
 
 # start servers
-ADD startServers.sh /root/startServers.sh
-CMD ["/root/startServers.sh"]
+ADD startServers.sh /usr/sbin/startServers.sh
+RUN chmod +x /usr/sbin/startServers.sh
+CMD ["/usr/sbin/startServers.sh"]

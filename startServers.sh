@@ -17,8 +17,9 @@ fi
 mkdir -p /run/httpd
 
 [ "$START_MYSQL" = true ] && cd /usr && /usr/bin/mysqld_safe --datadir=/var/lib/mysql&
-[ "$REGENERATE_SSL_CERT" = true ] && /etc/httpd/conf/genSSLKey.sh
+[ "$DO_SSL_SELF_GENERATION" = true ] && /usr/sbin/setupApacheSSLKey.sh
 [ "$START_APACHE" = true ] && apachectl start
+[ "$DO_SSL_LETS_ENCRYPT_FETCH" = true ] && /usr/sbin/setupApacheSSLKey.sh
 
 # hang out right here until the image is terminated
 sleep infinity
