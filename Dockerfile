@@ -80,7 +80,7 @@ RUN sed -i 's,#LoadModule dav_lock_module modules/mod_dav_lock.so,LoadModule dav
 RUN sed -i '$a DAVLockDB /home/httpd/DAV/DAVLock' /etc/httpd/conf/httpd.conf
 RUN mkdir -p /home/httpd/DAV
 RUN cat /etc/passwd
-RUN chown -R http /home/httpd/DAV
+RUN ["/usr/bin/bash", "-c", "chown -R http /home/httpd/DAV"]
 RUN chgrp -R http /home/httpd/DAV
 RUN mkdir -p /home/httpd/html/dav
 RUN chown -R http /home/httpd/html/dav
