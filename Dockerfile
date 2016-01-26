@@ -79,9 +79,11 @@ RUN sed -i 's,#LoadModule dav_fs_module modules/mod_dav_fs.so,LoadModule dav_fs_
 RUN sed -i 's,#LoadModule dav_lock_module modules/mod_dav_lock.so,LoadModule dav_lock_module modules/mod_dav_lock.so,g' /etc/httpd/conf/httpd.conf
 RUN sed -i '$a DAVLockDB /home/httpd/DAV/DAVLock' /etc/httpd/conf/httpd.conf
 RUN mkdir -p /home/httpd/DAV
-RUN chown -R http:http /home/httpd/DAV
+RUN chown -R http /home/httpd/DAV
+RUN chgrp -R http /home/httpd/DAV
 RUN mkdir -p /home/httpd/html/dav
-RUN chown -R http:http /home/httpd/html/dav
+RUN chown -R http /home/httpd/html/dav
+RUN chgrp -R http /home/httpd/html/dav
 
 # setup ssl
 ADD setupSSL.sh /root/setupSSL.sh
