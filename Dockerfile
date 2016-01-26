@@ -1,5 +1,5 @@
 FROM greyltc/archlinux
-MAINTAINER l3iggs <l3iggs@live.com>
+MAINTAINER Grey Christoforo <grey@christoforo.net>
 
 # install apache
 RUN pacman -S --noconfirm --needed apache
