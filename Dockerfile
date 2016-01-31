@@ -2,11 +2,11 @@ FROM greyltc/archlinux
 MAINTAINER Grey Christoforo <grey@christoforo.net>
 
 # install apache
-RUN pacman -S --noconfirm --needed apache
+RUN pacman -S --noprogressbar --noconfirm --needed apache
 RUN sed -i '$a ServerName ${HOSTNAME}' /etc/httpd/conf/httpd.conf
 
 # install php
-RUN pacman -S --noconfirm --needed php php-apache
+RUN pacman -S --noprogressbar --noconfirm --needed php php-apache
 ADD info.php /srv/http/
 
 # setup php
@@ -22,45 +22,45 @@ RUN sed -i 's,;extension=curl.so,extension=curl.so,g' /etc/php/php.ini
 RUN sed -i 's,;extension=ftp.so,extension=ftp.so,g' /etc/php/php.ini
 
 # for php-ldap
-RUN pacman -S --noconfirm --needed php-ldap
+RUN pacman -S --noprogressbar --noconfirm --needed php-ldap
 RUN sed -i 's,;extension=ldap.so,extension=ldap.so,g' /etc/php/php.ini
 
 # for php-gd
-RUN pacman -S --noconfirm --needed php-gd
+RUN pacman -S --noprogressbar --noconfirm --needed php-gd
 RUN sed -i 's,;extension=gd.so,extension=gd.so,g' /etc/php/php.ini
 
 # for php-intl
-RUN pacman -S --noconfirm --needed php-intl
+RUN pacman -S --noprogressbar --noconfirm --needed php-intl
 RUN sed -i 's,;extension=intl.so,extension=intl.so,g' /etc/php/php.ini
 
 # for php-mcrypt
-RUN pacman -S --noconfirm --needed php-mcrypt
+RUN pacman -S --noprogressbar --noconfirm --needed php-mcrypt
 RUN sed -i 's,;extension=mcrypt.so,extension=mcrypt.so,g' /etc/php/php.ini
 
 # for PHP caching
 RUN sed -i 's,;zend_extension=opcache.so,zend_extension=opcache.so,g' /etc/php/php.ini
 # TODO: think about setting default values https://secure.php.net/manual/en/opcache.installation.php#opcache.installation.recommended
-RUN pacman -S --noconfirm --needed php-apcu
+RUN pacman -S --noprogressbar --noconfirm --needed php-apcu
 RUN sed -i 's,;extension=apcu.so,extension=apcu.so,g' /etc/php/conf.d/apcu.ini
 RUN sed -i '$a apc.enabled=1' /etc/php/conf.d/apcu.ini
 RUN sed -i '$a apc.shm_size=32M' /etc/php/conf.d/apcu.ini
 RUN sed -i '$a apc.ttl=7200' /etc/php/conf.d/apcu.ini
 
 # for exif support
-RUN pacman -S --noconfirm --needed exiv2
+RUN pacman -S --noprogressbar --noconfirm --needed exiv2
 RUN sed -i 's,;extension=exif.so,extension=exif.so,g' /etc/php/php.ini
 
 # for sqlite database
-RUN pacman -S --noconfirm --needed sqlite php-sqlite
+RUN pacman -S --noprogressbar --noconfirm --needed sqlite php-sqlite
 RUN sed -i 's,;extension=sqlite3.so,extension=sqlite3.so,g' /etc/php/php.ini
 RUN sed -i 's,;extension=pdo_sqlite.so,extension=pdo_sqlite.so,g' /etc/php/php.ini
 
 # for mariadb (mysql) database
 # here is a hack to prevent an error during install because of missing systemd
 RUN ln -s /usr/bin/true /usr/bin/systemd-tmpfiles
-RUN pacman -S --noconfirm --needed mariadb
+RUN pacman -S --noprogressbar --noconfirm --needed mariadb
 RUN rm /usr/bin/systemd-tmpfiles
-RUN pacman -S --noconfirm --needed perl-dbd-mysql
+RUN pacman -S --noprogressbar --noconfirm --needed perl-dbd-mysql
 RUN sed -i 's,;extension=pdo_mysql.so,extension=pdo_mysql.so,g' /etc/php/php.ini
 RUN sed -i 's,;extension=mysql.so,extension=mysql.so,g' /etc/php/php.ini
 RUN mysql_install_db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
@@ -69,7 +69,7 @@ RUN mysql_install_db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
 #RUN sed -i 's,mysql.default_user =,mysql.default_user = root,g' /etc/php/php.ini
 
 # for postgresql
-RUN pacman -S --noconfirm --needed php-pgsql
+RUN pacman -S --noprogressbar --noconfirm --needed php-pgsql
 RUN sed -i 's,;extension=pdo_pgsql.so,extension=pdo_pgsql.so,g' /etc/php/php.ini
 RUN sed -i 's,;extension=pgsql.so,extension=pgsql.so,g' /etc/php/php.ini
 
@@ -93,7 +93,7 @@ RUN /root/setupSSL.sh
 # generate/fetch ssl cert. files
 #RUN curl -L https://github.com/letsencrypt/letsencrypt/archive/letsencrypt-auto-release-testing-v0.1.22.tar.gz > le.tar.gz
 #RUN tar -xvf le.tar.gz
-RUN pacman -S --noconfirm --needed letsencrypt letsencrypt-apache
+RUN pacman -S --noprogressbar --noconfirm --needed letsencrypt letsencrypt-apache
 ADD setupApacheSSLKey.sh /usr/sbin/setupApacheSSLKey.sh
 RUN chmod +x /usr/sbin/setupApacheSSLKey.sh
 ENV DO_SSL_SELF_GENERATION true
