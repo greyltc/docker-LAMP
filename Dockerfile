@@ -110,6 +110,5 @@ ENV START_MYSQL true
 ENV ENABLE_DAV false
 
 # start servers
-ADD startServers.sh /usr/sbin/startServers.sh
-RUN chmod +x /usr/sbin/startServers.sh
-CMD ["/usr/sbin/startServers.sh"]
+ADD startServers.sh /usr/sbin/start-servers
+CMD ["start-servers && sleep infinity"]

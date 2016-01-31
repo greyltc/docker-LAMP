@@ -21,5 +21,3 @@ mkdir -p /run/httpd
 [ "$START_APACHE" = true ] && apachectl start
 [ "$DO_SSL_LETS_ENCRYPT_FETCH" = true ] && /usr/sbin/setupApacheSSLKey.sh
 
-# hang out right here until the image is terminated
-sleep infinity
