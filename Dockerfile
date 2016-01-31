@@ -6,7 +6,7 @@ ADD setupApacheSSLKey.sh /usr/sbin/setup-apache-ssl-key
 
 ENV DO_SSL_SELF_GENERATION true
 
-ADD install-lamp.sh /usr/bin/install-lamp
+ADD install-lamp.sh /usr/sbin/install-lamp
 RUN install-lamp
 
 # expose web server ports
