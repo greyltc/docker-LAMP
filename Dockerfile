@@ -1,5 +1,5 @@
 FROM greyltc/archlinux
-MAINTAINER l3iggs <l3iggs@live.com>
+MAINTAINER Grey Christoforo <grey@christoforo.net>
 
 ADD setupSSL.sh /root/setupSSL.sh
 ADD setupApacheSSLKey.sh /usr/sbin/setup-apache-ssl-key
