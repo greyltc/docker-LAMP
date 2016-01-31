@@ -5,7 +5,7 @@ defines a docker container running Arch Linux with the LAMP stack installed
 
 1. [**Install docker**](https://docs.docker.com/installation/)
 1. **Download and start the LAMP server instance**  
-`docker run --name lamp -p 80:80 -p 443:443 -d l3iggs/lamp`
+`docker run --name lamp -p 80:80 -p 443:443 -d greyltc/lamp`
 1. **Test the LAMP server**  
 Point your browser to:  
 http://localhost/  
