@@ -5,6 +5,7 @@ ADD setupSSL.sh /root/setupSSL.sh
 ADD setupApacheSSLKey.sh /usr/sbin/setup-apache-ssl-key
 
 ENV DO_SSL_SELF_GENERATION true
+ENV SUBJECT /C=US/ST=CA/L=CITY/O=ORGANIZATION/OU=UNIT/CN=localhost
 
 ADD install-lamp.sh /usr/sbin/install-lamp
 RUN install-lamp
