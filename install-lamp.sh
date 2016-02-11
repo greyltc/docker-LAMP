@@ -104,3 +104,5 @@ pacman -S --noconfirm --needed letsencrypt letsencrypt-apache
 #ENV SUBJECT /C=US/ST=CA/L=CITY/O=ORGANIZATION/OU=UNIT/CN=localhost
 setup-apache-ssl-key
 
+# do image size reducing things
+cleanup-image
