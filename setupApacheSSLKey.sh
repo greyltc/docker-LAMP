@@ -34,9 +34,15 @@ if [ "$DO_SSL_LETS_ENCRYPT_FETCH" = true ] ; then
 	echo "Fetching ssl certificate files for ${HOSTNAME} from letsencrypt.org."
 	echo "This container's Apache server must be reachable from the Internet via http://${HOSTNAME}"
 	letsencrypt --debug certonly --agree-tos --renew-by-default --email ${EMAIL} --webroot -w /srv/http -d ${HOSTNAME}
-	ls -alh /etc/letsencrypt/live/${HOSTNAME}/
-	# cp /etc/letsencrypt/live/${HOSTNAME}/thing.crt ${CERT_DIR}/${CRT_FILE_NAME}
-	# cp /etc/letsencrypt/live/${HOSTNAME}/thing.key ${CERT_DIR}/${KEY_FILE_NAME}
+	if [ $? -eq 0 ]; then
+	  rm -rf ${CERT_DIR}/${CRT_FILE_NAME}
+	  ln -s /etc/letsencrypt/live/${HOSTNAME}/cert.pem ${CERT_DIR}/${CRT_FILE_NAME}
+	  rm -rf ${CERT_DIR}/${KEY_FILE_NAME}
+	  ln -s /etc/letsencrypt/live/${HOSTNAME}/privkey.pem ${CERT_DIR}/${KEY_FILE_NAME}
+	  apachectl graceful
+	else
+	  echo "Failed to fetch ssl cert from let's encrypt"
+	fi
 fi
 
 # let's make sure the key file is really a secret
