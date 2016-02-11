@@ -79,6 +79,7 @@ mysql_install_db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
 # for postgresql
 pacman -S --noprogressbar --noconfirm --needed postgresql php-pgsql
 su postgres -c "initdb --locale en_US.UTF-8 -E UTF8 -D '/var/lib/postgres/data'"
+mkdir -p /run/postgresql && chown postgres /run/postgresql
 su postgres -c 'pg_ctl -s -D /var/lib/postgres/data start -w -t 120'
 su postgres -c 'createuser root'
 su postgres -c 'psql --command="ALTER USER root WITH SUPERUSER;"'
