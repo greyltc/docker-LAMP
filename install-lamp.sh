@@ -103,6 +103,3 @@ pacman -S --noconfirm --needed letsencrypt letsencrypt-apache
 #ENV DO_SSL_SELF_GENERATION true
 #ENV SUBJECT /C=US/ST=CA/L=CITY/O=ORGANIZATION/OU=UNIT/CN=localhost
 setup-apache-ssl-key
-
-# do image size reducing things
-cleanup-image
