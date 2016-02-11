@@ -79,6 +79,10 @@ mysql_install_db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
 # for postgresql
 pacman -S --noprogressbar --noconfirm --needed postgresql php-pgsql
 su postgres -c "initdb --locale en_US.UTF-8 -E UTF8 -D '/var/lib/postgres/data'"
+su postgres -c 'pg_ctl -s -D /var/lib/postgres/data start -w -t 120'
+su postgres -c 'createuser root'
+su postgres -c 'psql --command="ALTER USER root WITH SUPERUSER;"'
+su postgres -c '/usr/bin/pg_ctl -s -D /var/lib/postgres/data stop -m fast'
 sed -i 's,;extension=pdo_pgsql.so,extension=pdo_pgsql.so,g' /etc/php/php.ini
 sed -i 's,;extension=pgsql.so,extension=pgsql.so,g' /etc/php/php.ini
 
