@@ -77,7 +77,8 @@ mysql_install_db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
 #sed -i 's,mysql.default_user =,mysql.default_user = root,g' /etc/php/php.ini
 
 # for postgresql
-pacman -S --noprogressbar --noconfirm --needed php-pgsql
+pacman -S --noprogressbar --noconfirm --needed postgresql php-pgsql
+su postgres -c "initdb --locale en_US.UTF-8 -E UTF8 -D '/var/lib/postgres/data'"
 sed -i 's,;extension=pdo_pgsql.so,extension=pdo_pgsql.so,g' /etc/php/php.ini
 sed -i 's,;extension=pgsql.so,extension=pgsql.so,g' /etc/php/php.ini
 
