@@ -17,7 +17,7 @@ EXPOSE 443
 # set some default variables for the startup script
 ENV DO_SSL_SELF_GENERATION false
 ENV DO_SSL_LETS_ENCRYPT_FETCH false
-ENV EMAIL user@example.com
+ENV EMAIL fail
 ENV START_APACHE true
 ENV START_MYSQL true
 ENV ENABLE_DAV false
