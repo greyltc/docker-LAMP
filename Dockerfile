@@ -1,4 +1,4 @@
-FROM greyltc/archlinux
+FROM greyltc/archlinux:dev
 MAINTAINER Grey Christoforo <grey@christoforo.net>
 
 ADD setupSSL.sh /root/setupSSL.sh
