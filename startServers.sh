@@ -15,7 +15,7 @@ fi
 
 # the systemd services generally create these folders, make them now manually
 mkdir -p /run/httpd
-mkdir -p /run/postgresql && chown /run/postgresql
+mkdir -p /run/postgresql && chown postgres /run/postgresql
 
 [ "$START_POSTGRESQL" = true ] && su postgres -c 'pg_ctl -s -D /var/lib/postgres/data start -w -t 120'
 [ "$START_MYSQL" = true ] && cd /usr && /usr/bin/mysqld_safe --datadir=/var/lib/mysql&
