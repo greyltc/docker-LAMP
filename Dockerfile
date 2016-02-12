@@ -13,6 +13,8 @@ RUN install-lamp
 EXPOSE 80
 EXPOSE 443
 
+VOLUME /root/sslKeys
+
 # set some default variables for the startup script
 ENV DO_SSL_SELF_GENERATION false
 ENV DO_SSL_LETS_ENCRYPT_FETCH false
