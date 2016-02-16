@@ -1,4 +1,4 @@
-FROM greyltc/archlinux:dev
+FROM greyltc/archlinux
 MAINTAINER Grey Christoforo <grey@christoforo.net>
 
 ADD setupApacheSSLKey.sh /usr/sbin/setup-apache-ssl-key
