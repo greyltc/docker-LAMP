@@ -4,6 +4,9 @@
 pacman -S --noprogressbar --noconfirm --needed apache
 sed -i '$a ServerName ${HOSTNAME}' /etc/httpd/conf/httpd.conf
 
+# enable mod rewrite
+sed -i '/^#LoadModule rewrite_module modules\/mod_rewrite.so/s/^#//g' /etc/httpd/conf/httpd.conf
+
 # install php
 pacman -S --noprogressbar --noconfirm --needed php php-apache
 
