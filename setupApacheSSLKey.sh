@@ -9,7 +9,6 @@ CRT_FILE_NAME=server.crt
 KEY_FILE_NAME=server.key
 CSR_FILE_NAME=server.csr
 
-
 # let's make a folder to hold our ssl cert files
 mkdir -p ${CERT_DIR}
 
@@ -21,28 +20,28 @@ sed -i "s,/etc/httpd/conf/server.key,${CERT_DIR}/${KEY_FILE_NAME},g" ${APACHE_SS
 # put there by the user
 
 if [ "$DO_SSL_SELF_GENERATION" = true ] ; then
-    # edit this if you don't want your self generated cert files to be valid for 10 years
-    DAYS_VALID=3650
-	echo "Self generating SSL cert. files..."
-    openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:2048 -out ${CERT_DIR}/${KEY_FILE_NAME}
-    openssl req -new -key ${CERT_DIR}/${KEY_FILE_NAME} -out ${CERT_DIR}/${CSR_FILE_NAME} -subj $SUBJECT
-    openssl x509 -req -days ${DAYS_VALID} -in ${CERT_DIR}/${CSR_FILE_NAME} -signkey ${CERT_DIR}/${KEY_FILE_NAME} -out ${CERT_DIR}/${CRT_FILE_NAME}
+  # edit this if you don't want your self generated cert files to be valid for 10 years
+  DAYS_VALID=3650
+  echo "Self generating SSL cert. files..."
+  openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:2048 -out ${CERT_DIR}/${KEY_FILE_NAME}
+  openssl req -new -key ${CERT_DIR}/${KEY_FILE_NAME} -out ${CERT_DIR}/${CSR_FILE_NAME} -subj $SUBJECT
+  openssl x509 -req -days ${DAYS_VALID} -in ${CERT_DIR}/${CSR_FILE_NAME} -signkey ${CERT_DIR}/${KEY_FILE_NAME} -out ${CERT_DIR}/${CRT_FILE_NAME}
 fi
 
 if [ "$DO_SSL_LETS_ENCRYPT_FETCH" = true ] ; then
-	HOSTNAME=$(hostname --fqdn)
-	echo "Fetching ssl certificate files for ${HOSTNAME} from letsencrypt.org."
-	echo "This container's Apache server must be reachable from the Internet via http://${HOSTNAME}"
-	letsencrypt --debug certonly --agree-tos --renew-by-default --email ${EMAIL} --webroot -w /srv/http -d ${HOSTNAME}
-	if [ $? -eq 0 ]; then
-	  rm -rf ${CERT_DIR}/${CRT_FILE_NAME}
-	  ln -s /etc/letsencrypt/live/${HOSTNAME}/cert.pem ${CERT_DIR}/${CRT_FILE_NAME}
-	  rm -rf ${CERT_DIR}/${KEY_FILE_NAME}
-	  ln -s /etc/letsencrypt/live/${HOSTNAME}/privkey.pem ${CERT_DIR}/${KEY_FILE_NAME}
-	  apachectl graceful
-	else
-	  echo "Failed to fetch ssl cert from let's encrypt"
-	fi
+  HOSTNAME=$(hostname --fqdn)
+  echo "Fetching ssl certificate files for ${HOSTNAME} from letsencrypt.org."
+  echo "This container's Apache server must be reachable from the Internet via http://${HOSTNAME}"
+  letsencrypt --debug certonly --agree-tos --renew-by-default --email ${EMAIL} --webroot -w /srv/http -d ${HOSTNAME}
+  if [ $? -eq 0 ]; then
+    rm -rf ${CERT_DIR}/${CRT_FILE_NAME}
+    ln -s /etc/letsencrypt/live/${HOSTNAME}/cert.pem ${CERT_DIR}/${CRT_FILE_NAME}
+    rm -rf ${CERT_DIR}/${KEY_FILE_NAME}
+    ln -s /etc/letsencrypt/live/${HOSTNAME}/privkey.pem ${CERT_DIR}/${KEY_FILE_NAME}
+    apachectl graceful
+  else
+    echo "Failed to fetch ssl cert from let's encrypt"
+  fi
 fi
 
 # let's make sure the key file is really a secret
