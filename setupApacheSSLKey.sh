@@ -30,7 +30,7 @@ if [ "$DO_SSL_SELF_GENERATION" = true ] ; then
 fi
 
 if [ "$DO_SSL_LETS_ENCRYPT_FETCH" = true ] ; then
-  HOSTNAME=$(hostname --fqdn)
+  : ${HOSTNAME:=$(hostname --fqdn)}
   echo "Fetching ssl certificate files for ${HOSTNAME} from letsencrypt.org."
   echo "This container's Apache server must be reachable from the Internet via http://${HOSTNAME}"
   letsencrypt --debug certonly --agree-tos --renew-by-default --email ${EMAIL} --webroot -w /srv/http -d ${HOSTNAME}
@@ -40,6 +40,8 @@ if [ "$DO_SSL_LETS_ENCRYPT_FETCH" = true ] ; then
     rm -rf ${CERT_DIR}/${KEY_FILE_NAME}
     ln -s /etc/letsencrypt/live/${HOSTNAME}/privkey.pem ${CERT_DIR}/${KEY_FILE_NAME}
     apachectl graceful
+    echo "Success! now copy your cert files out of the image and save them somewhere safe:"
+    echo "docker cp CONTAINER:/etc/letsencrypt/live/${HOSTNAME} ~/letsencryptFor_${HOSTNAME}"
   else
     echo "Failed to fetch ssl cert from let's encrypt"
   fi
