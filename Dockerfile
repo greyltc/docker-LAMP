@@ -26,4 +26,4 @@ ENV ENABLE_DAV false
 
 # start servers
 ADD startServers.sh /usr/sbin/start-servers
-CMD start-servers && sleep infinity
+CMD start-servers; sleep infinity
