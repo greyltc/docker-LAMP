@@ -8,6 +8,7 @@ APACHE_SSL_CONF=/etc/httpd/conf/extra/httpd-ssl.conf
 CRT_FILE_NAME=server.crt
 KEY_FILE_NAME=server.key
 CSR_FILE_NAME=server.csr
+CHAIN_FILE_NAME=server.chain
 
 # let's make a folder to hold our ssl cert files
 mkdir -p ${CERT_DIR}
@@ -15,6 +16,7 @@ mkdir -p ${CERT_DIR}
 # let's tell apache to look for ssl cert files (called server.crt and server.key) in this folder
 sed -i "s,/etc/httpd/conf/server.crt,${CERT_DIR}/${CRT_FILE_NAME},g" ${APACHE_SSL_CONF}
 sed -i "s,/etc/httpd/conf/server.key,${CERT_DIR}/${KEY_FILE_NAME},g" ${APACHE_SSL_CONF}
+sed -i "s,#SSLCertificateChainFile /etc/httpd/conf/server-ca.crt,SSLCertificateChainFile ${CERT_DIR}/${CHAIN_FILE_NAME},g" ${APACHE_SSL_CONF}
 # the intention here is that, prior to starting apache, there will somehow be two files in this folder for it to use
 # these files might be self-generated, fetched from letsencrypt.org or
 # put there by the user
@@ -39,9 +41,11 @@ if [ "$DO_SSL_LETS_ENCRYPT_FETCH" = true ] ; then
     ln -s /etc/letsencrypt/live/${HOSTNAME}/cert.pem ${CERT_DIR}/${CRT_FILE_NAME}
     rm -rf ${CERT_DIR}/${KEY_FILE_NAME}
     ln -s /etc/letsencrypt/live/${HOSTNAME}/privkey.pem ${CERT_DIR}/${KEY_FILE_NAME}
+    rm -rf ${CERT_DIR}/${CHAIN_FILE_NAME}
+    ln -s /etc/letsencrypt/live/${HOSTNAME}/chain.pem ${CERT_DIR}/${CHAIN_FILE_NAME}
     apachectl graceful
     echo "Success! now copy your cert files out of the image and save them somewhere safe:"
-    echo "docker cp CONTAINER:/etc/letsencrypt/live/${HOSTNAME} ~/letsencryptFor_${HOSTNAME}"
+    echo "docker cp CONTAINER:/etc/letsencrypt/archive/${HOSTNAME} ~/letsencryptFor_${HOSTNAME}"
   else
     echo "Failed to fetch ssl cert from let's encrypt"
   fi
