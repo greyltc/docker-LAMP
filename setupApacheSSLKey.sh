@@ -28,7 +28,7 @@ if [ "$DO_SSL_SELF_GENERATION" = true ] ; then
   openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:2048 -out ${CERT_DIR}/${KEY_FILE_NAME}
   openssl req -new -key ${CERT_DIR}/${KEY_FILE_NAME} -out ${CERT_DIR}/${CSR_FILE_NAME} -subj $SUBJECT
   openssl x509 -req -days ${DAYS_VALID} -in ${CERT_DIR}/${CSR_FILE_NAME} -signkey ${CERT_DIR}/${KEY_FILE_NAME} -out ${CERT_DIR}/${CRT_FILE_NAME}
-  apachectl graceful || true
+  [ -f /var/run/httpd/httpd.pid] && apachectl graceful || true
 fi
 
 if [ "$DO_SSL_LETS_ENCRYPT_FETCH" = true ] ; then
@@ -43,7 +43,7 @@ if [ "$DO_SSL_LETS_ENCRYPT_FETCH" = true ] ; then
     ln -s /etc/letsencrypt/live/${HOSTNAME}/privkey.pem ${CERT_DIR}/${KEY_FILE_NAME}
     rm -rf ${CERT_DIR}/${CHAIN_FILE_NAME}
     ln -s /etc/letsencrypt/live/${HOSTNAME}/chain.pem ${CERT_DIR}/${CHAIN_FILE_NAME}
-    apachectl graceful
+    [ -f /var/run/httpd/httpd.pid] && apachectl graceful
     echo "Success! now copy your cert files out of the image and save them somewhere safe:"
     echo "docker cp CONTAINER:/etc/letsencrypt/archive/${HOSTNAME} ~/letsencryptFor_${HOSTNAME}"
   else
