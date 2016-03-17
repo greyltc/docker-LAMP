@@ -2,9 +2,9 @@
 
 if [ "$ENABLE_DAV" = true ] ; then
   cat >> /etc/httpd/conf/httpd.conf <<EOF
-Alias /dav "/home/httpd/html/dav"
+Alias /dav "/home/httpd/html/dav/"
 
-<Directory "/home/httpd/html/dav">
+<Directory "/home/httpd/html/dav/">
   DAV On
   AllowOverride None
   Options Indexes FollowSymLinks
