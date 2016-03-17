@@ -119,5 +119,8 @@ sed -i '$a SSLProtocol All -SSLv2 -SSLv3' /etc/httpd/conf/extra/httpd-ssl.conf
 pacman -S --noprogressbar --noconfirm --needed letsencrypt letsencrypt-apache
 setup-apache-ssl-key
 
+# instal cron
+pacman -S --noprogressbar --noconfirm --needed cronie
+
 # reduce docker layer size
 cleanup-image
