@@ -13,7 +13,7 @@ RUN install-lamp
 EXPOSE 80
 EXPOSE 443
 
-VOLUME /root/sslKeys
+#VOLUME /root/sslKeys
 
 # set some default variables for the startup script
 ENV DO_SSL_SELF_GENERATION false
@@ -23,6 +23,7 @@ ENV START_APACHE true
 ENV START_MYSQL true
 ENV START_POSTGRESQL false
 ENV ENABLE_DAV false
+ENV ENABLE_CRON true
 
 # start servers
 ADD startServers.sh /usr/sbin/start-servers
