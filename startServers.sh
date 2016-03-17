@@ -22,3 +22,4 @@ mkdir -p /run/postgresql && chown postgres /run/postgresql
 [ "$DO_SSL_SELF_GENERATION" = true ] && setup-apache-ssl-key
 [ "$START_APACHE" = true ] && apachectl start
 [ "$DO_SSL_LETS_ENCRYPT_FETCH" = true ] && setup-apache-ssl-key
+[ "$ENABLE_CRON" = true ] && crond
