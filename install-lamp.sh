@@ -31,6 +31,7 @@ sed -i 's,;extension=zip.so,extension=zip.so,g' /etc/php/php.ini
 sed -i 's,;extension=bz2.so,extension=bz2.so,g' /etc/php/php.ini
 sed -i 's,;extension=curl.so,extension=curl.so,g' /etc/php/php.ini
 sed -i 's,;extension=ftp.so,extension=ftp.so,g' /etc/php/php.ini
+sed -i 's,;extension=gettext.so,extension=gettext.so,g' /etc/php/php.ini
 
 # tweaks for PHP caching with APCu
 pacman -S --noconfirm --noprogress --needed php-apcu-bc
