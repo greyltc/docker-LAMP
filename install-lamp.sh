@@ -31,7 +31,6 @@ sed -i 's,;extension=zip.so,extension=zip.so,g' /etc/php/php.ini
 sed -i 's,;extension=bz2.so,extension=bz2.so,g' /etc/php/php.ini
 sed -i 's,;extension=curl.so,extension=curl.so,g' /etc/php/php.ini
 sed -i 's,;extension=ftp.so,extension=ftp.so,g' /etc/php/php.ini
-sed -i 's,;extension=mysqli.so,extension=mysqli.so,g' /etc/php/php.ini
 
 # tweaks for PHP caching with APCu
 pacman -S --noconfirm --noprogress --needed php-apcu-bc
@@ -81,6 +80,7 @@ pacman -S --noprogressbar --noconfirm --needed perl-dbd-mysql
 sed -i 's,;extension=pdo_mysql.so,extension=pdo_mysql.so,g' /etc/php/php.ini
 sed -i 's,;extension=mysql.so,extension=mysql.so,g' /etc/php/php.ini
 mysql_install_db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
+sed -i 's,;extension=mysqli.so,extension=mysqli.so,g' /etc/php/php.ini
 #sed -i 's,mysql.trace_mode = Off,mysql.trace_mode = On,g' /etc/php/php.ini
 #sed -i 's,mysql.default_host =,mysql.default_host = localhost,g' /etc/php/php.ini
 #sed -i 's,mysql.default_user =,mysql.default_user = root,g' /etc/php/php.ini
