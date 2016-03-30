@@ -28,7 +28,7 @@ if [ "$DO_SSL_SELF_GENERATION" = true ] ; then
   openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:2048 -out ${CERT_DIR}/${KEY_FILE_NAME}
   openssl req -new -key ${CERT_DIR}/${KEY_FILE_NAME} -out ${CERT_DIR}/${CSR_FILE_NAME} -subj $SUBJECT
   openssl x509 -req -days ${DAYS_VALID} -in ${CERT_DIR}/${CSR_FILE_NAME} -signkey ${CERT_DIR}/${KEY_FILE_NAME} -out ${CERT_DIR}/${CRT_FILE_NAME}
-  [ -f /var/run/httpd/httpd.pid] && apachectl graceful || true
+  [ -f /var/run/httpd/httpd.pid ] && apachectl graceful || true
 fi
 
 if [ "$DO_SSL_LETS_ENCRYPT_FETCH" = true ] ; then
