@@ -43,7 +43,7 @@ if [ "$DO_SSL_LETS_ENCRYPT_FETCH" = true ] ; then
     ln -s /etc/letsencrypt/live/${HOSTNAME}/privkey.pem ${CERT_DIR}/${KEY_FILE_NAME}
     rm -rf ${CERT_DIR}/${CHAIN_FILE_NAME}
     ln -s /etc/letsencrypt/live/${HOSTNAME}/chain.pem ${CERT_DIR}/${CHAIN_FILE_NAME}
-    [ -f /var/run/httpd/httpd.pid] && apachectl graceful
+    [ -f /var/run/httpd/httpd.pid ] && apachectl graceful
     echo "Success! now copy your cert files out of the image and save them somewhere safe:"
     echo "docker cp CONTAINER:/etc/letsencrypt/archive/${HOSTNAME} ~/letsencryptFor_${HOSTNAME}"
   else
