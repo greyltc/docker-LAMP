@@ -16,7 +16,7 @@ mkdir -p ${CERT_DIR}
 # let's tell apache to look for ssl cert files (called server.crt and server.key) in this folder
 sed -i "s,/etc/httpd/conf/server.crt,${CERT_DIR}/${CRT_FILE_NAME},g" ${APACHE_SSL_CONF}
 sed -i "s,/etc/httpd/conf/server.key,${CERT_DIR}/${KEY_FILE_NAME},g" ${APACHE_SSL_CONF}
-sed -i "s,#SSLCertificateChainFile /etc/httpd/conf/server-ca.crt,SSLCertificateChainFile ${CERT_DIR}/${CHAIN_FILE_NAME},g" ${APACHE_SSL_CONF}
+sed -i "s,#SSLCertificateChainFile \"/etc/httpd/conf/server-ca.crt\",SSLCertificateChainFile \"${CERT_DIR}/${CHAIN_FILE_NAME}\",g" ${APACHE_SSL_CONF}
 # the intention here is that, prior to starting apache, there will somehow be two files in this folder for it to use
 # these files might be self-generated, fetched from letsencrypt.org or
 # put there by the user
