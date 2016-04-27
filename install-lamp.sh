@@ -37,9 +37,8 @@ sed -i 's,;extension=ftp.so,extension=ftp.so,g' /etc/php/php.ini
 sed -i 's,;extension=gettext.so,extension=gettext.so,g' /etc/php/php.ini
 
 # tweaks for PHP caching with APCu
-pacman -S --noconfirm --noprogress --needed php-apcu-bc
-sed -i '$a extension=apc.so' /etc/php/conf.d/apcu.ini
-sed -i '$a apc.enable_cli=1' /etc/php/conf.d/apcu.ini
+#pacman -S --noconfirm --noprogress --needed php-apcu-bc
+#sed -i '$a extension=apc.so' /etc/php/conf.d/apcu.ini
 
 # for php-ldap
 pacman -S --noprogressbar --noconfirm --needed php-ldap
@@ -62,6 +61,7 @@ sed -i 's,;zend_extension=opcache.so,zend_extension=opcache.so,g' /etc/php/php.i
 # TODO: think about setting default values https://secure.php.net/manual/en/opcache.installation.php#opcache.installation.recommended
 pacman -S --noprogressbar --noconfirm --needed php-apcu
 sed -i 's,;extension=apcu.so,extension=apcu.so,g' /etc/php/conf.d/apcu.ini
+sed -i '$a apc.enable_cli=1' /etc/php/conf.d/apcu.ini
 sed -i '$a apc.enabled=1' /etc/php/conf.d/apcu.ini
 sed -i '$a apc.shm_size=32M' /etc/php/conf.d/apcu.ini
 sed -i '$a apc.ttl=7200' /etc/php/conf.d/apcu.ini
