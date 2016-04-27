@@ -7,6 +7,9 @@ sed -i '$a ServerName ${HOSTNAME}' /etc/httpd/conf/httpd.conf
 # enable mod rewrite
 sed -i '/^#LoadModule rewrite_module modules\/mod_rewrite.so/s/^#//g' /etc/httpd/conf/httpd.conf
 
+# solve HTTP TRACE vulnerability: http://www.kb.cert.org/vuls/id/867593
+sed -i '$a TraceEnable Off' /etc/httpd/conf/httpd.conf
+
 # install php
 pacman -S --noprogressbar --noconfirm --needed php php-apache
 
