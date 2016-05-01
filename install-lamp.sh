@@ -36,10 +36,6 @@ sed -i 's,;extension=curl.so,extension=curl.so,g' /etc/php/php.ini
 sed -i 's,;extension=ftp.so,extension=ftp.so,g' /etc/php/php.ini
 sed -i 's,;extension=gettext.so,extension=gettext.so,g' /etc/php/php.ini
 
-# tweaks for PHP caching with APCu
-#pacman -S --noconfirm --noprogress --needed php-apcu-bc
-#sed -i '$a extension=apc.so' /etc/php/conf.d/apcu.ini
-
 # for php-ldap
 pacman -S --noprogressbar --noconfirm --needed php-ldap
 sed -i 's,;extension=ldap.so,extension=ldap.so,g' /etc/php/php.ini
@@ -65,6 +61,10 @@ sed -i '$a apc.enable_cli=1' /etc/php/conf.d/apcu.ini
 sed -i '$a apc.enabled=1' /etc/php/conf.d/apcu.ini
 sed -i '$a apc.shm_size=32M' /etc/php/conf.d/apcu.ini
 sed -i '$a apc.ttl=7200' /etc/php/conf.d/apcu.ini
+
+# enable APC backwards compatibility
+pacman -S --noconfirm --noprogress --needed php-apcu-bc
+sed -i 's,;extension=apc.so,extension=apc.so,g' /etc/php/conf.d/apcu.ini
 
 # for exif support
 pacman -S --noprogressbar --noconfirm --needed exiv2
