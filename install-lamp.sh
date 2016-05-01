@@ -63,8 +63,8 @@ sed -i '$a apc.shm_size=32M' /etc/php/conf.d/apcu.ini
 sed -i '$a apc.ttl=7200' /etc/php/conf.d/apcu.ini
 
 # enable APC backwards compatibility
-pacman -S --noconfirm --noprogress --needed php-apcu-bc
-sed -i 's,;extension=apc.so,extension=apc.so,g' /etc/php/conf.d/apcu.ini
+#pacman -S --noconfirm --noprogress --needed php-apcu-bc
+#sed -i 's,;extension=apc.so,extension=apc.so,g' /etc/php/conf.d/apcu.ini
 
 # for exif support
 pacman -S --noprogressbar --noconfirm --needed exiv2
