@@ -104,11 +104,27 @@ sed -i 's,;extension=pgsql.so,extension=pgsql.so,g' /etc/php/php.ini
 sed -i 's,#LoadModule dav_module modules/mod_dav.so,LoadModule dav_module modules/mod_dav.so,g' /etc/httpd/conf/httpd.conf
 sed -i 's,#LoadModule dav_fs_module modules/mod_dav_fs.so,LoadModule dav_fs_module modules/mod_dav_fs.so,g' /etc/httpd/conf/httpd.conf
 sed -i 's,#LoadModule dav_lock_module modules/mod_dav_lock.so,LoadModule dav_lock_module modules/mod_dav_lock.so,g' /etc/httpd/conf/httpd.conf
-sed -i '$a DAVLockDB /home/httpd/DAV/DAVLock' /etc/httpd/conf/httpd.conf
-mkdir -p /home/httpd/DAV
-chown -R http:http /home/httpd/DAV
-mkdir -p /home/httpd/html/dav
-chown -R http:http /home/httpd/html/dav
+sed -i 's,#LoadModule setenvif_module modules/mod_setenvif.so,LoadModule setenvif_module modules/mod_setenvif.so,g' /etc/httpd/conf/httpd.conf
+#sed -i 's,#LoadModule auth_digest_module modules/mod_auth_digest.so,LoadModule auth_digest_module modules/mod_auth_digest.so,g' /etc/httpd/conf/httpd.conf
+#sed -i 's,#LoadModule authn_core_module modules/mod_authn_core.so,LoadModule authn_core_module modules/mod_authn_core.so,g' /etc/httpd/conf/httpd.conf
+#sed -i 's,#LoadModule authn_file_module modules/mod_authn_file.so,LoadModule authn_file_module modules/mod_authn_file.so,g' /etc/httpd/conf/httpd.conf
+#sed -i 's,#LoadModule authz_core_module modules/mod_authz_core.so,LoadModule authz_core_module modules/mod_authz_core.so,g' /etc/httpd/conf/httpd.conf
+#sed -i 's,#LoadModule authz_user_module modules/mod_authz_user.so,LoadModule authz_user_module modules/mod_authz_user.so,g' /etc/httpd/conf/httpd.conf
+sed -i '$a Include conf/extra/httpd-dav.conf' /etc/httpd/conf/httpd.conf
+sed -i 's,Alias /uploads "/etc/httpd/var/",Alias /dav "/srv/webdav",g' /etc/httpd/conf/extra/httpd-dav.conf
+# disable auth requirement for dav access
+sed -i 's,AuthType Digest,#AuthType Digest,g' /etc/httpd/conf/extra/httpd-dav.conf
+sed -i 's,AuthName DAV-upload,#AuthName DAV-upload,g' /etc/httpd/conf/extra/httpd-dav.conf
+sed -i 's,AuthUserFile "/etc/httpd/user.passwd",#AuthUserFile "/etc/httpd/user.passwd",g' /etc/httpd/conf/extra/httpd-dav.conf
+sed -i 's,AuthDigestProvider file,#AuthDigestProvider file,g' /etc/httpd/conf/extra/httpd-dav.conf
+sed -i 's,<RequireAny>,Require all granted,g' /etc/httpd/conf/extra/httpd-dav.conf
+sed -i 's,Require method GET POST OPTIONS,#Require method GET POST OPTIONS,g' /etc/httpd/conf/extra/httpd-dav.conf
+sed -i 's,Require user admin,#Require user admin,g' /etc/httpd/conf/extra/httpd-dav.conf
+sed -i 's,</RequireAny>,#</RequireAny>,g' /etc/httpd/conf/extra/httpd-dav.conf
+mkdir -p /etc/httpd/var/
+chown -R http:http /etc/httpd/var/
+mkdir -p /srv/webdav
+chown -R http:http /srv/webdav
 
 # setup ssl
 sed -i 's,;extension=openssl.so,extension=openssl.so,g' /etc/php/php.ini
