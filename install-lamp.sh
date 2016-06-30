@@ -120,8 +120,8 @@ sed -i 's,AuthUserFile "/etc/httpd/user.passwd",#AuthUserFile "/etc/httpd/user.p
 sed -i 's,AuthDigestProvider file,#AuthDigestProvider file,g' /etc/httpd/conf/extra/httpd-dav.conf
 sed -i 's,<RequireAny>,Require all granted,g' /etc/httpd/conf/extra/httpd-dav.conf
 sed -i 's,Require method GET POST OPTIONS,#Require method GET POST OPTIONS,g' /etc/httpd/conf/extra/httpd-dav.conf
-sed -i 's,Require user admin,#Require user admin,g' /etc/httpd/conf/extra/httpd-dav.conf
-sed -i 's,</RequireAny>,#</RequireAny>,g' /etc/httpd/conf/extra/httpd-dav.conf
+sed -i 's,Require user admin,Options Indexes FollowSymLinks,g' /etc/httpd/conf/extra/httpd-dav.conf
+sed -i 's,</RequireAny>,AllowOverride None,g' /etc/httpd/conf/extra/httpd-dav.conf
 mkdir -p /etc/httpd/var/
 chown -R http:http /etc/httpd/var/
 mkdir -p /srv/webdav
