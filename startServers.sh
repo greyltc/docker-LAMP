@@ -1,16 +1,9 @@
 #!/usr/bin/env bash
 
 if [ "$ENABLE_DAV" = true ] ; then
-  cat >> /etc/httpd/conf/httpd.conf <<EOF
-Alias /dav "/home/httpd/html/dav/"
-
-<Directory "/home/httpd/html/dav/">
-  DAV On
-  AllowOverride None
-  Options Indexes FollowSymLinks
-  Require all granted
-</Directory>
-EOF
+  sed -i 's,#Include conf/extra/httpd-dav.conf,Include conf/extra/httpd-dav.conf,g' /etc/httpd/conf/httpd.conf
+else
+  sed -i 's,Include conf/extra/httpd-dav.conf,#Include conf/extra/httpd-dav.conf,g' /etc/httpd/conf/httpd.conf
 fi
 
 # the systemd services generally create these folders, make them now manually
