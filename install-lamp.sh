@@ -125,7 +125,10 @@ sed -i 's,</RequireAny>,AllowOverride None,g' /etc/httpd/conf/extra/httpd-dav.co
 mkdir -p /etc/httpd/var/
 chown -R http:http /etc/httpd/var/
 mkdir -p /srv/webdav
+chmod g+w /srv/webdav
 chown -R http:http /srv/webdav
+setfacl -d -m group:http:rwx /srv/webdav
+setfacl -m group:http:rwx /srv/webdav
 
 # setup ssl
 sed -i 's,;extension=openssl.so,extension=openssl.so,g' /etc/php/php.ini
