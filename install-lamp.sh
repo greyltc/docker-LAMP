@@ -127,6 +127,7 @@ chown -R http:http /etc/httpd/var/
 mkdir -p /srv/webdav
 chmod g+w /srv/webdav
 chown -R http:http /srv/webdav
+chmod g+s /srv/webdav/
 setfacl -d -m group:http:rwx /srv/webdav
 setfacl -m group:http:rwx /srv/webdav
 
