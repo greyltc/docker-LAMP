@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
 if [ "$ENABLE_DAV" = true ] ; then
-  sed -i 's,#Include conf/extra/httpd-dav.conf,Include conf/extra/httpd-dav.conf,g' /etc/httpd/conf/httpd.conf
+  sed -i '$a Include conf/extra/httpd-dav.conf' 
 else
-  sed -i 's,Include conf/extra/httpd-dav.conf,#Include conf/extra/httpd-dav.conf,g' /etc/httpd/conf/httpd.conf
+  sed -i '|Include conf/extra/httpd-dav.conf|d' /etc/httpd/conf/httpd.conf
 fi
 
 # the systemd services generally create these folders, make them now manually
