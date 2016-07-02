@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 if [ "$ENABLE_DAV" = true ] ; then
-  sed -i '$a Include conf/extra/httpd-dav.conf' 
+  sed -i '$a Include conf/extra/httpd-dav.conf' /etc/httpd/conf/httpd.conf
 else
   sed -i '|Include conf/extra/httpd-dav.conf|d' /etc/httpd/conf/httpd.conf
 fi
