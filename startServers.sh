@@ -10,7 +10,7 @@ fi
 mkdir -p /run/httpd
 mkdir -p /run/postgresql && chown postgres /run/postgresql
 
-[ "$START_POSTGRESQL" = true ] && su postgres -c 'pg_ctl -D /var/lib/postgres/data -l /var/log/PostgreSQL_server.log start'
+[ "$START_POSTGRESQL" = true ] && su postgres -c 'pg_ctl -s -D /var/lib/postgres/data start -w -t 120'
 [ "$START_MYSQL" = true ] && cd /usr && /usr/bin/mysqld_safe --datadir=/var/lib/mysql&
 [ "$DO_SSL_SELF_GENERATION" = true ] && setup-apache-ssl-key
 [ "$START_APACHE" = true ] && apachectl start
