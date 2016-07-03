@@ -1,8 +1,10 @@
-#/usr/bin/env bash
+#!/usr/bin/env bash
+set -eu -o pipefail
 
 # install apache
 pacman -S --noprogressbar --noconfirm --needed apache
-sed -i '$a ServerName ${HOSTNAME}' /etc/httpd/conf/httpd.conf
+sed -i "s,#ServerName www.example.com:80,ServerName $(hostname --fqdn),g" /etc/httpd/conf/httpd.conf
+sed -i 's,Listen 80,#Listen 80,g' /etc/httpd/conf/httpd.conf
 
 # enable mod rewrite
 sed -i '/^#LoadModule rewrite_module modules\/mod_rewrite.so/s/^#//g' /etc/httpd/conf/httpd.conf
@@ -128,8 +130,8 @@ mkdir -p /srv/webdav
 chmod g+w /srv/webdav
 chown -R http:http /srv/webdav
 chmod g+s /srv/webdav/
-setfacl -d -m group:http:rwx /srv/webdav
-setfacl -m group:http:rwx /srv/webdav
+setfacl -d -m group:http:rwx /srv/webdav || true
+setfacl -m group:http:rwx /srv/webdav || true
 
 # setup ssl
 sed -i 's,;extension=openssl.so,extension=openssl.so,g' /etc/php/php.ini
@@ -140,10 +142,11 @@ sed -i 's,#Include conf/extra/httpd-ssl.conf,Include conf/extra/httpd-ssl.conf,g
 sed -i 's/^SSLCipherSuite .*/SSLCipherSuite ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:kEDH+AESGCM:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!3DES:!MD5:!PSK/g' /etc/httpd/conf/extra/httpd-ssl.conf
 # disable super old and vulnerable SSL protocols: SSLv2 and SSLv3 (this breaks IE6 & windows XP)
 sed -i '$a SSLProtocol All -SSLv2 -SSLv3' /etc/httpd/conf/extra/httpd-ssl.conf
+# let ServerName be inherited
+sed -i '/ServerName www.example.com:443/d' /etc/httpd/conf/extra/httpd-ssl.conf
 
-# generate/fetch ssl cert. files
-pacman -S --noprogressbar --noconfirm --needed letsencrypt letsencrypt-apache
-setup-apache-ssl-key
+# this is for lets encrypt ssl cert fetching
+pacman -S --noprogressbar --noconfirm --needed certbot certbot-apache
 
 # instal cron
 pacman -S --noprogressbar --noconfirm --needed cronie
