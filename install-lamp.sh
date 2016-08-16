@@ -78,6 +78,8 @@ sed -i 's,;extension=sqlite3.so,extension=sqlite3.so,g' /etc/php/php.ini
 sed -i 's,;extension=pdo_sqlite.so,extension=pdo_sqlite.so,g' /etc/php/php.ini
 
 # for mariadb (mysql) database
+groupadd -g 89 mysql &>/dev/null
+useradd -u 89 -g 89 -d /var/lib/mysql -s /bin/false mysql &>/dev/null
 # here is a hack to prevent an error during install because of missing systemd
 ln -s /usr/bin/true /usr/bin/systemd-tmpfiles
 pacman -S --noprogressbar --noconfirm --needed mariadb
