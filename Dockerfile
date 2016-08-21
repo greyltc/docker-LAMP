@@ -13,6 +13,12 @@ ENV EMAIL fail
 RUN setup-apache-ssl-key
 ENV DO_SSL_SELF_GENERATION false
 
+# here are the ports that various things in this container are listening on
+EXPOSE 80 # for http (apache, only if ALLOW_INSECURE = true)
+EXPOSE 443 # for https (apache)
+EXPOSE 5432 # for postgreSQL server (only if START_POSTGRESQL = true)
+EXPOSE 3306 # for MySQL server (mariadb, only if START_MYSQL = true)
+
 # start servers
 ADD startServers.sh /usr/sbin/start-servers
 ENV START_APACHE true
