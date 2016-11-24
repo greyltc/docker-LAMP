@@ -12,6 +12,7 @@ ENV DO_SSL_LETS_ENCRYPT_FETCH false
 ENV EMAIL fail
 RUN setup-apache-ssl-key
 ENV DO_SSL_SELF_GENERATION false
+ENV CURLOPT_CAINFO /etc/ssl/certs/ca-certificates.crt
 
 # here are the ports that various things in this container are listening on
 # for http (apache, only if ALLOW_INSECURE = true)
