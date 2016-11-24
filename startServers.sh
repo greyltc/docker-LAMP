@@ -23,8 +23,8 @@ mkdir -p /run/postgresql && chown postgres /run/postgresql
 sed -i "s/^ServerName .*/ServerName $(hostname --fqdn)/g" /etc/httpd/conf/httpd.conf
 
 [ "$START_POSTGRESQL" = true ] && su postgres -c 'pg_ctl -D /var/lib/postgres/data -l /var/log/PostgreSQL_server.log start'
-#[ "$START_MYSQL" = true ] && cd /usr && /usr/bin/mysqld_safe --datadir=/var/lib/mysql&
-[ "$START_MYSQL" = true ] && nohup /usr/bin/mysqld '--basedir=/usr' '--datadir=/var/lib/mysql' '--plugin-dir=/usr/lib64/mysql/plugin' '--user=mysql' '--log-error=/var/lib/mysql/log.err' '--socket=/run/mysqld/mysqld.sock' '--port=3306'&
+[ "$START_MYSQL" = true ] && cd /usr && /usr/bin/mysqld_safe --datadir=/var/lib/mysql&
+[ "$START_MYSQL" = true ] && sleep 1 && nohup /usr/bin/mysqld '--basedir=/usr' '--datadir=/var/lib/mysql' '--plugin-dir=/usr/lib64/mysql/plugin' '--user=mysql' '--log-error=/var/lib/mysql/log.err' '--socket=/run/mysqld/mysqld.sock' '--port=3306'&
 [ "$DO_SSL_SELF_GENERATION" = true ] && setup-apache-ssl-key
 [ "$START_APACHE" = true ] && apachectl start
 [ "$DO_SSL_LETS_ENCRYPT_FETCH" = true ] && setup-apache-ssl-key
