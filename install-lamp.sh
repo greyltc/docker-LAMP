@@ -114,7 +114,6 @@ sed -i 's,#LoadModule setenvif_module modules/mod_setenvif.so,LoadModule setenvi
 #sed -i 's,#LoadModule authn_file_module modules/mod_authn_file.so,LoadModule authn_file_module modules/mod_authn_file.so,g' /etc/httpd/conf/httpd.conf
 #sed -i 's,#LoadModule authz_core_module modules/mod_authz_core.so,LoadModule authz_core_module modules/mod_authz_core.so,g' /etc/httpd/conf/httpd.conf
 #sed -i 's,#LoadModule authz_user_module modules/mod_authz_user.so,LoadModule authz_user_module modules/mod_authz_user.so,g' /etc/httpd/conf/httpd.conf
-#sed -i '$a Include conf/extra/httpd-dav.conf' /etc/httpd/conf/httpd.conf
 sed -i 's,Alias /uploads "/etc/httpd/uploads",Alias /dav "/srv/webdav",g' /etc/httpd/conf/extra/httpd-dav.conf
 sed -i 's,<Directory "/etc/httpd/uploads">,<Directory "/srv/webdav">,g' /etc/httpd/conf/extra/httpd-dav.conf
 # disable auth requirement for dav access
