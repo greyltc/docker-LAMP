@@ -3,9 +3,9 @@ set -eu -o pipefail
 
 # enable/disable webdav
 if [ "$ENABLE_DAV" = true ] ; then
-  sed -i '$a Include conf/extra/httpd-dav.conf' /etc/httpd/conf/httpd.conf
+  sed -i 's,^#Include conf/extra/httpd-dav.conf,Include conf/extra/httpd-dav.conf,g' /etc/httpd/conf/httpd.conf
 else
-  sed -i '/Include conf\/extra\/httpd-dav.conf/d' /etc/httpd/conf/httpd.conf
+  sed -i 's,^Include conf/extra/httpd-dav.conf,#Include conf/extra/httpd-dav.conf,g' /etc/httpd/conf/httpd.conf
 fi
 
 # enable/disable non-https (unencrypted over port 80) apache access
