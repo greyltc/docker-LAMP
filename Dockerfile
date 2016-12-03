@@ -27,7 +27,7 @@ EXPOSE 3306
 # start servers
 ADD startServers.sh /usr/sbin/start-servers
 ENV START_APACHE true
-ENV ALLOW_INSECURE true
+ENV APACHE_DISABLE_PORT_80 false
 ENV START_MYSQL true
 ENV START_POSTGRESQL false
 ENV ENABLE_DAV false
