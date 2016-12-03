@@ -3,7 +3,7 @@ set -eu -o pipefail
 
 # install apache
 pacman -S --noprogressbar --noconfirm --needed apache
-sed -i "s,#ServerName www.example.com:80,ServerName $(hostname --fqdn),g" /etc/httpd/conf/httpd.conf
+sed -i "s,#ServerName www.example.com:80,ServerName $(hostname --fqdn):80,g" /etc/httpd/conf/httpd.conf
 
 # enable mod rewrite
 sed -i '/^#LoadModule rewrite_module modules\/mod_rewrite.so/s/^#//g' /etc/httpd/conf/httpd.conf
