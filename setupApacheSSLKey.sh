@@ -45,7 +45,7 @@ if [ "$DO_SSL_LETS_ENCRYPT_FETCH" = true ] ; then
     [ -f /var/run/httpd/httpd.pid ] && apachectl graceful
     echo "Success! now copy your cert files out of the image and save them somewhere safe:"
     echo "docker cp CONTAINER:/etc/letsencrypt ~/letsencryptBackup"
-    echo "where CONTAINER is the name you used when you stated the container"
+    echo "where CONTAINER is the name you used when you started the container"
     # now we'll schedule renewals via cron twice per day (will only be successful after ~90 days)
     echo '51 6,15 * * * root certbot renew >> /var/log/certbot.log 2>&1' > /etc/cron.d/certbot_renewal
   else
