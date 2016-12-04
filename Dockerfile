@@ -4,6 +4,11 @@ MAINTAINER Grey Christoforo <grey@christoforo.net>
 ADD install-lamp.sh /usr/sbin/install-lamp
 RUN install-lamp
 
+# make let's encrypt certificate fetching easier
+ADD httpd-acme.conf /etc/httpd/conf/extra/httpd-acme.conf
+RUN sed -i '$a Include conf/extra/httpd-acme.conf' /etc/httpd/conf/httpd.conf
+RUN mkdir -p /var/lib/letsencrypt && chgrp http /var/lib/letsencrypt && chmod g+s /var/lib/letsencrypt
+
 # generate our ssl key
 ADD setupApacheSSLKey.sh /usr/sbin/setup-apache-ssl-key
 ENV DO_SSL_SELF_GENERATION true
