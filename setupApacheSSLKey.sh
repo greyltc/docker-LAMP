@@ -34,7 +34,7 @@ if [ "$DO_SSL_LETS_ENCRYPT_FETCH" = true ] ; then
   : ${HOSTNAME:=$(hostname --fqdn)}
   echo "Fetching ssl certificate files for ${HOSTNAME} from letsencrypt.org."
   echo "This container's Apache server must be reachable from the Internet via http://${HOSTNAME}"
-  certbot --debug --agree-tos --email ${EMAIL} --webroot -w /srv/http/ -d ${HOSTNAME} certonly
+  certbot --text --debug --agree-tos --email ${EMAIL} --webroot -w /srv/http/ -d ${HOSTNAME} certonly
   # Maybe one day the apache plugin will work for Arch Linux and I could do this...
   #certbot --apache --debug --agree-tos --email ${EMAIL} -d ${HOSTNAME} certonly
   if [ $? -eq 0 ]; then
