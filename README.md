@@ -5,11 +5,9 @@ defines a docker container running Arch Linux with the LAMP stack installed
 
 1. [**Install docker**](https://docs.docker.com/installation/)
 1. **Download and start the LAMP server instance**  
-`docker run --name lamp -p 80:80 -p 443:443 -d greyltc/lamp`
+`docker run --name lamp -p 443:443 -d greyltc/lamp:dev`
 1. **Test the LAMP server**  
 Point your browser to:  
-http://localhost/  
-or  
 https://localhost/  
 and you should see the default apache index. Follow the info.php link there and you should see detials of the php installation.
 1. **[Optional] Change your webserver root data storage location**  
