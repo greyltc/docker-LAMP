@@ -34,16 +34,17 @@ if [ "$DO_SSL_LETS_ENCRYPT_FETCH" = true ] ; then
   : ${HOSTNAME:=$(hostname --fqdn)}
   echo "Fetching ssl certificate files for ${HOSTNAME} from letsencrypt.org."
   echo "This container's Apache server must be reachable from the Internet via http://${HOSTNAME}"
-  certbot --text --debug --keep-until-expiring --agree-tos --email ${EMAIL} --webroot -w /var/lib/letsencrypt/ -d ${HOSTNAME} certonly
+  #certbot --text --debug --keep-until-expiring --agree-tos --email ${EMAIL} --webroot -w /var/lib/letsencrypt/ -d ${HOSTNAME} certonly
   # Maybe one day the apache plugin will work for Arch Linux and I could do this...
-  #certbot --apache --debug --agree-tos --email ${EMAIL} -d ${HOSTNAME} certonly
+  certbot --staging --apache --debug --agree-tos --email ${EMAIL} -d ${HOSTNAME} certonly
   if [ $? -eq 0 ]; then
     rm -rf ${CERT_DIR}/${CRT_FILE_NAME}
     ln -s /etc/letsencrypt/live/${HOSTNAME}/fullchain.pem ${CERT_DIR}/${CRT_FILE_NAME}
     rm -rf ${CERT_DIR}/${KEY_FILE_NAME}
     ln -s /etc/letsencrypt/live/${HOSTNAME}/privkey.pem ${CERT_DIR}/${KEY_FILE_NAME}
     [ -f /var/run/httpd/httpd.pid ] && apachectl graceful
-    echo "Success! now copy your cert files out of the image and save them somewhere safe:"
+    echo "Success!"
+    echo "Now you could copy your cert files out of the image and save them somewhere safe:"
     echo "docker cp CONTAINER:/etc/letsencrypt ~/letsencryptBackup"
     echo "where CONTAINER is the name you used when you started the container"
     # now we'll schedule renewals via cron twice per day (will only be successful after ~90 days)
