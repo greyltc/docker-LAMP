@@ -6,7 +6,7 @@ This thing is re-built in the cloud every time a change is made here: https://hu
 
 1. [**Install docker**](https://docs.docker.com/installation/)
 1. **Download and start the LAMP server instance**  
-`docker run --name lampdev -p 443:443 -d greyltc/lamp:dev`
+`docker run --name lamp -p 443:443 -d greyltc/lamp`
 1. **Test the LAMP server**  
 Point your browser to:  
 https://localhost/  
