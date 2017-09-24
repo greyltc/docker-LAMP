@@ -1,5 +1,6 @@
 # docker-LAMP
 defines a docker container running Arch Linux with the LAMP stack installed
+This thing is re-built in the cloud every time a change is made here: https://hub.docker.com/r/greyltc/lamp
 
 ## Usage
 
@@ -9,7 +10,7 @@ defines a docker container running Arch Linux with the LAMP stack installed
 1. **Test the LAMP server**  
 Point your browser to:  
 https://localhost/  
-if you've not used your own ssl certificate you'll likely see browser warnings here about NET::ERR_CERT_AUTHORITY_INVALID click though those and
+if you've not used your own ssl certificate, as described below, you'll likely see browser warnings here about NET::ERR_CERT_AUTHORITY_INVALID click though those and
 you should see the default apache index. Follow the info.php link there and you should see detials of the php installation.
 1. **[Optional] Change your webserver root data storage location**  
 It's likely desirable for your www root dir to be placed in a persistant storage location outside the docker container, on the host's file system for example. Let's imagine you wish to store your www files in a folder `~/www` on the host's file system. Then insert the following into the docker startup command (from step 2. above) between `run` and `--name`:  
