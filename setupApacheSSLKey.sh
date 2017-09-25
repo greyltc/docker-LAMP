@@ -19,6 +19,21 @@ sed -i "s,/etc/httpd/conf/server.key,${CERT_DIR}/${KEY_FILE_NAME},g" ${APACHE_SS
 # these files might be self-generated, fetched from letsencrypt.org or
 # put there by the user
 
+
+link_certbot_keys(){
+  rm -rf ${CERT_DIR}/${CRT_FILE_NAME}
+  ln -s /etc/letsencrypt/live/${1}/fullchain.pem ${CERT_DIR}/${CRT_FILE_NAME}
+  rm -rf ${CERT_DIR}/${KEY_FILE_NAME}
+  ln -s /etc/letsencrypt/live/${1}/privkey.pem ${CERT_DIR}/${KEY_FILE_NAME}
+  [ -f /var/run/httpd/httpd.pid ] && apachectl graceful
+  echo "Success!"
+  echo "Now you could copy your cert files out of the image and save them somewhere safe:"
+  echo "docker cp CONTAINER:/etc/letsencrypt ~/letsencryptBackup"
+  echo "where CONTAINER is the name you used when you started the container"
+  # now we'll schedule renewals via cron twice per day (will only be successful after ~90 days)
+  echo '51 6,15 * * * root certbot renew >> /var/log/certbot.log 2>&1' > /etc/cron.d/certbot_renewal
+}
+
 if [ "$DO_SSL_SELF_GENERATION" = true ] ; then
   # edit this if you don't want your self generated cert files to be valid for 10 years
   DAYS_VALID=3650
@@ -33,23 +48,26 @@ fi
 if [ "$DO_SSL_LETS_ENCRYPT_FETCH" = true ] ; then
   : ${HOSTNAME:=$(hostname --fqdn)}
   echo "Fetching ssl certificate files for ${HOSTNAME} from letsencrypt.org."
-  echo "This container's Apache server must be reachable from the Internet via http://${HOSTNAME}"
-  certbot --text --debug --keep-until-expiring --agree-tos --email ${EMAIL} --webroot -w /var/lib/letsencrypt/ -d ${HOSTNAME} certonly
-  # Maybe one day the apache plugin will work for Arch Linux and I could do this...
-  #certbot --apache --debug --agree-tos --email ${EMAIL} -d ${HOSTNAME} certonly
+  echo "This container's Apache server must be reachable from the Internet via https://${HOSTNAME}"
+  certbot --non-interactive --apache --debug --agree-tos --email ${EMAIL} -d ${HOSTNAME} certonly
   if [ $? -eq 0 ]; then
-    rm -rf ${CERT_DIR}/${CRT_FILE_NAME}
-    ln -s /etc/letsencrypt/live/${HOSTNAME}/fullchain.pem ${CERT_DIR}/${CRT_FILE_NAME}
-    rm -rf ${CERT_DIR}/${KEY_FILE_NAME}
-    ln -s /etc/letsencrypt/live/${HOSTNAME}/privkey.pem ${CERT_DIR}/${KEY_FILE_NAME}
-    [ -f /var/run/httpd/httpd.pid ] && apachectl graceful
-    echo "Success! now copy your cert files out of the image and save them somewhere safe:"
-    echo "docker cp CONTAINER:/etc/letsencrypt ~/letsencryptBackup"
-    echo "where CONTAINER is the name you used when you started the container"
-    # now we'll schedule renewals via cron twice per day (will only be successful after ~90 days)
-    echo '51 6,15 * * * root certbot renew >> /var/log/certbot.log 2>&1' > /etc/cron.d/certbot_renewal
+    link_certbot_keys $HOSTNAME
   else
     echo "Failed to fetch ssl cert from let's encrypt"
+  fi
+fi
+
+# do this when you've volume mapped previously fetched let's encrypt files into the container
+if [ "$USE_EXISTING_LETS_ENCRYPT" = true ] ; then
+  echo "SSL setup with existing Let's Encrypt cert"
+  HOSTNAME="$(find /etc/letsencrypt/live/. -type d | sed -n 2p)"
+  if [ -d "$HOSTNAME" ]; then
+    certbot renew
+    link_certbot_keys $(basename $HOSTNAME)
+    echo "Done."
+  else
+    echo "Could not find previously fetched Let's Encrypt files!"
+    echo "Did you volume map them into the container properly?"
   fi
 fi
 
