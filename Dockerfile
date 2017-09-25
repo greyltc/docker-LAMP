@@ -6,10 +6,11 @@ RUN install-lamp
 
 # generate our ssl key
 ADD setupApacheSSLKey.sh /usr/sbin/setup-apache-ssl-key
-ENV DO_SSL_SELF_GENERATION true
 ENV SUBJECT /C=US/ST=CA/L=CITY/O=ORGANIZATION/OU=UNIT/CN=localhost
 ENV DO_SSL_LETS_ENCRYPT_FETCH false
+ENV USE_EXISTING_LETS_ENCRYPT false
 ENV EMAIL fail
+ENV DO_SSL_SELF_GENERATION true
 RUN setup-apache-ssl-key
 ENV DO_SSL_SELF_GENERATION false
 ENV CURLOPT_CAINFO /etc/ssl/certs/ca-certificates.crt
