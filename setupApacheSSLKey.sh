@@ -59,12 +59,14 @@ fi
 
 # do this when you've volume mapped previously fetched let's encrypt files into the container
 if [ "$USE_EXISTING_LETS_ENCRYPT" = true ] ; then
+  echo "SSL setup with existing Let's Encrypt cert"
   HOSTNAME="$(find /etc/letsencrypt/live/. -type d | sed -n 2p)"
   if [ -d "$HOSTNAME" ]; then
     certbot renew
     link_certbot_keys $(basename $HOSTNAME)
+    echo "Done."
   else
-    echo "Could not find prefiously fetched Let's Encrypt files!"
+    echo "Could not find previously fetched Let's Encrypt files!"
     echo "Did you volume map them into the container properly?"
   fi
 fi
