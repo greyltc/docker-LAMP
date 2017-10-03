@@ -25,6 +25,8 @@ phpinfo();
 phpinfo(INFO_MODULES);
 ?>
 EOF
+sed -i 's,#LoadModule deflate_module modules/mod_deflate.so,LoadModule deflate_module modules/mod_deflate.so,g' /etc/httpd/conf/httpd.conf
+sed -i 's,#LoadModule expires_module modules/mod_expires.so,LoadModule expires_module modules/mod_expires.so,g' /etc/httpd/conf/httpd.conf
 sed -i 's,LoadModule mpm_event_module modules/mod_mpm_event.so,#LoadModule mpm_event_module modules/mod_mpm_event.so,g' /etc/httpd/conf/httpd.conf
 sed -i 's,#LoadModule mpm_prefork_module modules/mod_mpm_prefork.so,LoadModule mpm_prefork_module modules/mod_mpm_prefork.so,g' /etc/httpd/conf/httpd.conf
 sed -i 's,LoadModule dir_module modules/mod_dir.so,LoadModule dir_module modules/mod_dir.so\nLoadModule php7_module modules/libphp7.so,g' /etc/httpd/conf/httpd.conf
