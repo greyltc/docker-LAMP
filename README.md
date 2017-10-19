@@ -9,7 +9,7 @@ This thing is re-built in the cloud every time a change is made here: https://hu
 `docker run --name lamp -p 443:443 -d greyltc/lamp`
 1. **Test the LAMP server**  
 Point your browser to:  
-https://localhost/  
+http://localhost/  
 if you've not used your own ssl certificate, as described below, you'll likely see browser warnings here about NET::ERR_CERT_AUTHORITY_INVALID click though those and
 you should see the default apache index. Follow the info.php link there and you should see detials of the php installation.
 1. **[Optional] Change your webserver root data storage location**  
