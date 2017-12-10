@@ -149,10 +149,6 @@ sed -i '/ServerName www.example.com:443/d' /etc/httpd/conf/extra/httpd-ssl.conf
 
 # this is for lets encrypt ssl cert fetching
 pacman -S --noprogressbar --noconfirm --needed certbot certbot-apache
-# hack-fix for broken certbot
-curl https://archive.archlinux.org/packages/p/python-pyopenssl/python-pyopenssl-17.1.0-1-any.pkg.tar.xz > python-pyopenssl-17.1.0-1-any.pkg.tar.xz
-pacman -U --noprogressbar --noconfirm python-pyopenssl-17.1.0-1-any.pkg.tar.xz
-rm python-pyopenssl-17.1.0-1-any.pkg.tar.xz
 
 # instal cron
 pacman -S --noprogressbar --noconfirm --needed cronie
