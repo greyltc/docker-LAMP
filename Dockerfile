@@ -27,10 +27,11 @@ EXPOSE 3306
 
 # start servers
 ADD startServers.sh /usr/sbin/start-servers
+ADD setupMysqlUser.sh /usr/sbin/setup-mysql-user
 ENV START_APACHE true
 ENV APACHE_ENABLE_PORT_80 false
 ENV START_MYSQL true
 ENV START_POSTGRESQL false
 ENV ENABLE_DAV false
 ENV ENABLE_CRON true
-CMD start-servers; sleep infinity
+CMD start-servers; setup-mysql-user; sleep infinity
