@@ -34,4 +34,6 @@ ENV START_MYSQL true
 ENV START_POSTGRESQL false
 ENV ENABLE_DAV false
 ENV ENABLE_CRON true
+
 CMD start-servers; setup-mysql-user; sleep infinity
+CMD mysqld --user=root
