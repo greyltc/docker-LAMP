@@ -12,7 +12,7 @@ sed -i '/^#LoadModule rewrite_module modules\/mod_rewrite.so/s/^#//g' /etc/httpd
 sed -i '$a TraceEnable Off' /etc/httpd/conf/httpd.conf
 
 # install php
-pacman -S --noprogressbar --noconfirm --needed php php-apache
+pacman -S --noprogressbar --noconfirm --needed php71 php-apache
 
 # setup php
 cat > /srv/http/info.php <<EOF
@@ -81,6 +81,8 @@ sed -i 's,;extension=pdo_sqlite.so,extension=pdo_sqlite.so,g' /etc/php/php.ini
 # for mariadb (mysql) database
 groupadd -g 89 mysql &>/dev/null
 useradd -u 89 -g 89 -d /var/lib/mysql -s /bin/false mysql &>/dev/null
+# add a mysqld folder for run
+mkdir /run/mysqld
 # here is a hack to prevent an error during install because of missing systemd
 ln -s /usr/bin/true /usr/bin/systemd-tmpfiles
 pacman -S --noprogressbar --noconfirm --needed mariadb
@@ -126,6 +128,9 @@ sed -i 's,<RequireAny>,Require all granted,g' /etc/httpd/conf/extra/httpd-dav.co
 sed -i 's,Require method GET POST OPTIONS,#Require method GET POST OPTIONS,g' /etc/httpd/conf/extra/httpd-dav.conf
 sed -i 's,Require user admin,Options Indexes FollowSymLinks,g' /etc/httpd/conf/extra/httpd-dav.conf
 sed -i 's,</RequireAny>,AllowOverride None,g' /etc/httpd/conf/extra/httpd-dav.conf
+# create http user
+groupadd -g 33 http &>/dev/null
+useradd -u 33 -g 33 -d /srv/http -s /bin/false http &>/dev/null
 mkdir -p /etc/httpd/var/
 chown -R http:http /etc/httpd/var/
 mkdir -p /srv/webdav
