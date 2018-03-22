@@ -31,32 +31,32 @@ sed -i 's,LoadModule mpm_event_module modules/mod_mpm_event.so,#LoadModule mpm_e
 sed -i 's,#LoadModule mpm_prefork_module modules/mod_mpm_prefork.so,LoadModule mpm_prefork_module modules/mod_mpm_prefork.so,g' /etc/httpd/conf/httpd.conf
 sed -i 's,LoadModule dir_module modules/mod_dir.so,LoadModule dir_module modules/mod_dir.so\nLoadModule php7_module modules/libphp7.so,g' /etc/httpd/conf/httpd.conf
 sed -i '$a Include conf/extra/php7_module.conf' /etc/httpd/conf/httpd.conf
-sed -i 's,;extension=iconv.so,extension=iconv.so,g' /etc/php/php.ini
-sed -i 's,;extension=xmlrpc.so,extension=xmlrpc.so,g' /etc/php/php.ini
-sed -i 's,;extension=zip.so,extension=zip.so,g' /etc/php/php.ini
-sed -i 's,;extension=bz2.so,extension=bz2.so,g' /etc/php/php.ini
-sed -i 's,;extension=curl.so,extension=curl.so,g' /etc/php/php.ini
-sed -i 's,;extension=ftp.so,extension=ftp.so,g' /etc/php/php.ini
-sed -i 's,;extension=gettext.so,extension=gettext.so,g' /etc/php/php.ini
+sed -i 's,;extension=iconv,extension=iconv,g' /etc/php/php.ini
+sed -i 's,;extension=xmlrpc,extension=xmlrpc,g' /etc/php/php.ini
+sed -i 's,;extension=zip,extension=zip,g' /etc/php/php.ini
+sed -i 's,;extension=bz2,extension=bz2,g' /etc/php/php.ini
+sed -i 's,;extension=curl,extension=curl,g' /etc/php/php.ini
+sed -i 's,;extension=ftp,extension=ftp,g' /etc/php/php.ini
+sed -i 's,;extension=gettext,extension=gettext,g' /etc/php/php.ini
 
 # for php-ldap
 pacman -S --noprogressbar --noconfirm --needed php-ldap
-sed -i 's,;extension=ldap.so,extension=ldap.so,g' /etc/php/php.ini
+sed -i 's,;extension=ldap,extension=ldap,g' /etc/php/php.ini
 
 # for php-gd
 pacman -S --noprogressbar --noconfirm --needed php-gd
-sed -i 's,;extension=gd.so,extension=gd.so,g' /etc/php/php.ini
+sed -i 's,;extension=gd,extension=gd,g' /etc/php/php.ini
 
 # for php-intl
 pacman -S --noprogressbar --noconfirm --needed php-intl
-sed -i 's,;extension=intl.so,extension=intl.so,g' /etc/php/php.ini
+sed -i 's,;extension=intl,extension=intl,g' /etc/php/php.ini
 
 # for php-mcrypt
-pacman -S --noprogressbar --noconfirm --needed php-mcrypt
-sed -i 's,;extension=mcrypt.so,extension=mcrypt.so,g' /etc/php/php.ini
+pacman -S --noprogressbar --noconfirm --needed php-sodium
+sed -i 's,;extension=sodium,extension=sodium,g' /etc/php/php.ini
 
 # for PHP caching
-sed -i 's,;zend_extension=opcache.so,zend_extension=opcache.so,g' /etc/php/php.ini
+sed -i 's,;zend_extension=opcache,zend_extension=opcache,g' /etc/php/php.ini
 # TODO: think about setting default values https://secure.php.net/manual/en/opcache.installation.php#opcache.installation.recommended
 pacman -S --noprogressbar --noconfirm --needed php-apcu
 sed -i 's,;extension=apcu.so,extension=apcu.so,g' /etc/php/conf.d/apcu.ini
@@ -71,12 +71,12 @@ sed -i '$a apc.ttl=7200' /etc/php/conf.d/apcu.ini
 
 # for exif support
 pacman -S --noprogressbar --noconfirm --needed exiv2
-sed -i 's,;extension=exif.so,extension=exif.so,g' /etc/php/php.ini
+sed -i 's,;extension=exif,extension=exif,g' /etc/php/php.ini
 
 # for sqlite database
 pacman -S --noprogressbar --noconfirm --needed sqlite php-sqlite
-sed -i 's,;extension=sqlite3.so,extension=sqlite3.so,g' /etc/php/php.ini
-sed -i 's,;extension=pdo_sqlite.so,extension=pdo_sqlite.so,g' /etc/php/php.ini
+sed -i 's,;extension=sqlite3,extension=sqlite3,g' /etc/php/php.ini
+sed -i 's,;extension=pdo_sqlite,extension=pdo_sqlite,g' /etc/php/php.ini
 
 # for mariadb (mysql) database
 groupadd -g 89 mysql &>/dev/null
@@ -86,10 +86,10 @@ ln -s /usr/bin/true /usr/bin/systemd-tmpfiles
 pacman -S --noprogressbar --noconfirm --needed mariadb
 rm /usr/bin/systemd-tmpfiles
 pacman -S --noprogressbar --noconfirm --needed perl-dbd-mysql
-sed -i 's,;extension=pdo_mysql.so,extension=pdo_mysql.so,g' /etc/php/php.ini
-sed -i 's,;extension=mysql.so,extension=mysql.so,g' /etc/php/php.ini
+sed -i 's,;extension=pdo_mysql,extension=pdo_mysql,g' /etc/php/php.ini
+sed -i 's,;extension=mysql,extension=mysql,g' /etc/php/php.ini
 mysql_install_db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
-sed -i 's,;extension=mysqli.so,extension=mysqli.so,g' /etc/php/php.ini
+sed -i 's,;extension=mysqli,extension=mysqli,g' /etc/php/php.ini
 #sed -i 's,mysql.trace_mode = Off,mysql.trace_mode = On,g' /etc/php/php.ini
 #sed -i 's,mysql.default_host =,mysql.default_host = localhost,g' /etc/php/php.ini
 #sed -i 's,mysql.default_user =,mysql.default_user = root,g' /etc/php/php.ini
@@ -102,8 +102,8 @@ su postgres -c 'pg_ctl -s -D /var/lib/postgres/data start -w -t 120'
 su postgres -c 'createuser root'
 su postgres -c 'psql --command="ALTER USER root WITH SUPERUSER;"'
 su postgres -c '/usr/bin/pg_ctl -s -D /var/lib/postgres/data stop -m fast'
-sed -i 's,;extension=pdo_pgsql.so,extension=pdo_pgsql.so,g' /etc/php/php.ini
-sed -i 's,;extension=pgsql.so,extension=pgsql.so,g' /etc/php/php.ini
+sed -i 's,;extension=pdo_pgsql,extension=pdo_pgsql,g' /etc/php/php.ini
+sed -i 's,;extension=pgsql,extension=pgsql,g' /etc/php/php.ini
 
 # for dav suppport
 sed -i 's,#LoadModule dav_module modules/mod_dav.so,LoadModule dav_module modules/mod_dav.so,g' /etc/httpd/conf/httpd.conf
@@ -136,7 +136,7 @@ setfacl -d -m group:http:rwx /srv/webdav || true
 setfacl -m group:http:rwx /srv/webdav || true
 
 # setup ssl
-sed -i 's,;extension=openssl.so,extension=openssl.so,g' /etc/php/php.ini
+sed -i 's,;extension=openssl,extension=openssl,g' /etc/php/php.ini
 sed -i 's,#LoadModule ssl_module modules/mod_ssl.so,LoadModule ssl_module modules/mod_ssl.so,g' /etc/httpd/conf/httpd.conf
 sed -i 's,#LoadModule socache_shmcb_module modules/mod_socache_shmcb.so,LoadModule socache_shmcb_module modules/mod_socache_shmcb.so,g' /etc/httpd/conf/httpd.conf
 sed -i 's,#Include conf/extra/httpd-ssl.conf,Include conf/extra/httpd-ssl.conf,g' /etc/httpd/conf/httpd.conf
