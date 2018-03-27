@@ -1,6 +1,9 @@
 FROM greyltc/archlinux
 MAINTAINER Grey Christoforo <grey@christoforo.net>
 
+# update the container's mirrorlist
+RUN get-new-mirrors
+
 ADD install-lamp.sh /usr/sbin/install-lamp
 RUN install-lamp
 
