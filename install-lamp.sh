@@ -127,13 +127,13 @@ sed -i 's,Require method GET POST OPTIONS,#Require method GET POST OPTIONS,g' /e
 sed -i 's,Require user admin,Options Indexes FollowSymLinks,g' /etc/httpd/conf/extra/httpd-dav.conf
 sed -i 's,</RequireAny>,AllowOverride None,g' /etc/httpd/conf/extra/httpd-dav.conf
 mkdir -p /etc/httpd/var/
-chown -R 33:33 /etc/httpd/var/
+chown -R http:http /etc/httpd/var/
 mkdir -p /srv/webdav
 chmod g+w /srv/webdav
-chown -R 33:33 /srv/webdav
+chown -R http:http /srv/webdav
 chmod g+s /srv/webdav/
-setfacl -d -m group:33:rwx /srv/webdav || true
-setfacl -m group:33:rwx /srv/webdav || true
+setfacl -d -m group:http:rwx /srv/webdav || true
+setfacl -m group:http:rwx /srv/webdav || true
 
 # setup ssl
 sed -i 's,;extension=openssl,extension=openssl,g' /etc/php/php.ini
