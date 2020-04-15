@@ -7,6 +7,11 @@ RUN get-new-mirrors
 ADD install-lamp.sh /usr/sbin/install-lamp
 RUN install-lamp
 
+# MAC:15APR2020 adding phpmyadmin
+RUN pacman -S --noconfirm phpmyadmin
+ADD phpmyadmin.conf /etc/httpd/conf/extra/phpmyadmin.conf
+RUN echo "Include /etc/httpd/conf/extra/phpmyadmin.conf" >> /etc/httpd/conf/httpd.conf
+
 # generate our ssl key
 ADD setupApacheSSLKey.sh /usr/sbin/setup-apache-ssl-key
 ENV SUBJECT /C=US/ST=CA/L=CITY/O=ORGANIZATION/OU=UNIT/CN=localhost

@@ -82,9 +82,13 @@ sed -i 's,;extension=pdo_sqlite,extension=pdo_sqlite,g' /etc/php/php.ini
 groupadd -g 89 mysql &>/dev/null
 useradd -u 89 -g 89 -d /var/lib/mysql -s /bin/false mysql &>/dev/null
 # here is a hack to prevent an error during install because of missing systemd
-ln -s /usr/bin/true /usr/bin/systemd-tmpfiles
+
+# MAC:15APR2020  placed the next line in comment as it gave an error that the file exists
+# ln -s /usr/bin/true /usr/bin/systemd-tmpfiles
 pacman -S --noprogressbar --noconfirm --needed mariadb
-rm /usr/bin/systemd-tmpfiles
+
+# MAC:15APR2020  placed the next line in comment as I think it is not needed anymore
+# rm /usr/bin/systemd-tmpfiles
 pacman -S --noprogressbar --noconfirm --needed perl-dbd-mysql
 sed -i 's,;extension=pdo_mysql,extension=pdo_mysql,g' /etc/php/php.ini
 sed -i 's,;extension=mysql,extension=mysql,g' /etc/php/php.ini
@@ -96,6 +100,10 @@ sed -i 's,;extension=mysqli,extension=mysqli,g' /etc/php/php.ini
 
 # for postgresql
 pacman -S --noprogressbar --noconfirm --needed postgresql php-pgsql
+
+# MAC:15APR2020 added next two lines to create a directory and change ownership as there was an error there 
+# mkdir /var/lib/postgres
+# chown postgres /var/lib/postgres
 su postgres -c "initdb --locale en_US.UTF-8 -E UTF8 -D '/var/lib/postgres/data'"
 mkdir -p /run/postgresql && chown postgres /run/postgresql
 su postgres -c 'pg_ctl -s -D /var/lib/postgres/data start -w -t 120'
